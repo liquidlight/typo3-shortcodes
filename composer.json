@@ -1,0 +1,24 @@
+{
+    "name": "liquidlight/shortcodes",
+    "description": "Wordpress-style shortcodes for page content",
+    "type": "typo3-cms-extension",
+    "require": {
+        "typo3/cms-core": "^9.5"
+    },
+    "authors": [
+        {
+            "name": "Mike Street",
+            "email": "mike@liquidlight.co.uk"
+        }
+    ],
+    "autoload": {
+		"psr-4": {
+			"LiquidLight\\Shortcodes\\": "Classes"
+		}
+	},
+    "extra": {
+        "typo3/cms": {
+            "extension-key": "shortcodes"
+        }
+    }
+}
