@@ -19,27 +19,28 @@ class ProcessShortcodes implements MiddlewareInterface
 
 		// Get our defined shortcodes
 		$keywordConfigs = GeneralUtility::makeInstance(ExtensionConfiguration::class)
-			->get('shortcodes', 'register');
+			->get('shortcodes', 'register')
+		;
 
 		// Find all the shortcodes in the page
 		preg_match_all('/\[([a-zA-Z0-9]*?):(.*?)\]/', $body, $pageShortcodes);
 
 		// Check we have shortcodes & classes to handle them
-		if(!count($keywordConfigs) || !count($pageShortcodes)) {
+		if (!count($keywordConfigs) || !count($pageShortcodes)) {
 			return $response;
 		}
 
 		// Instantiate the classes we'll need for this page
 		// (i.e. if their keyword was found)
-		foreach($keywordConfigs as $keyword => $_classRef) {
-			if(in_array($keyword, $pageShortcodes[1])) {
+		foreach ($keywordConfigs as $keyword => $_classRef) {
+			if (in_array($keyword, $pageShortcodes[1])) {
 				$keywordConfigs[$keyword] = GeneralUtility::makeInstance($_classRef);
 			}
 		}
 
 		// Loop through the keywords and process
-		foreach($pageShortcodes[1] as $index => $keyword) {
-			if(in_array($keyword, array_keys($keywordConfigs))) {
+		foreach ($pageShortcodes[1] as $index => $keyword) {
+			if (in_array($keyword, array_keys($keywordConfigs))) {
 				// e.g. [youtube: www.youtube.com/?v=123]
 				$full_string = $pageShortcodes[0][$index];
 
@@ -63,7 +64,7 @@ class ProcessShortcodes implements MiddlewareInterface
 				);
 
 				// Did our config return something? Find and replace the origin full_String
-				if($result) {
+				if ($result) {
 					$body = str_replace($full_string, $result, $body);
 				}
 			}
