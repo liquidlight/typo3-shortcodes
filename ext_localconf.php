@@ -31,4 +31,7 @@ call_user_func(function () {
 
 	$shortcodesExtConf['processShortcode']['iframe'] =
 		\LiquidLight\Shortcodes\Keywords\IframeKeyword::class;
+
+	$shortcodesExtConf['processShortcode']['instagram'] =
+		\LiquidLight\Shortcodes\Keywords\InstagramKeyword::class;
 });

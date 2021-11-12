@@ -45,9 +45,16 @@ Allows a generic iframe to be rendered with the passed in URL
 - allow
 - frameBorder
 
-**Defaults**
 
-None
+#### Instagram
+
+`[instagram]`
+
+Embeds an Instagram post
+
+```
+[instgram: https://www.instagram.com/p/CWI-FeDs-us/ ]
+```
 
 #### Spotify
 
