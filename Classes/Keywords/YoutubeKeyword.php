@@ -2,7 +2,7 @@
 
 namespace LiquidLight\Shortcodes\Keywords;
 
-class YoutubeShortcode extends AbstractShortcode
+class YoutubeKeyword extends AbstractKeyword
 {
 	public function processShortcode(
 		string $value,

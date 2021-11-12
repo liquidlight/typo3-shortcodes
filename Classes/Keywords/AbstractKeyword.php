@@ -4,7 +4,7 @@ namespace LiquidLight\Shortcodes\Keywords;
 
 use TYPO3\CMS\Core\Http\Response;
 
-abstract class AbstractShortcode
+abstract class AbstractKeyword
 {
 	/**
 	 * response

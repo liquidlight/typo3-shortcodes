@@ -2,7 +2,7 @@
 
 namespace LiquidLight\Shortcodes\Keywords;
 
-class VimeoShortcode extends AbstractShortcode
+class VimeoKeyword extends AbstractKeyword
 {
 	public function processShortcode(
 		string $value,
