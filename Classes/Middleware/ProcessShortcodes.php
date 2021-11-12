@@ -67,6 +67,7 @@ class ProcessShortcodes implements MiddlewareInterface
 
 				// Fire method and get built HTML
 				$result = $keywordConfigs[$keyword]->processShortcode(
+					$keyword,
 					$data['value'],
 					$data['attributes'],
 					$match

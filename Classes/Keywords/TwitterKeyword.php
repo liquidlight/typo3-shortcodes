@@ -26,6 +26,7 @@ class TwitterKeyword extends AbstractKeyword
 	];
 
 	public function processShortcode(
+		string $keyword,
 		string $value,
 		array $attributes,
 		string $match

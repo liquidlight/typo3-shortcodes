@@ -5,6 +5,7 @@ namespace LiquidLight\Shortcodes\Keywords;
 class VimeoKeyword extends VideoKeyword
 {
 	public function processShortcode(
+		string $keyword,
 		string $value,
 		array $attributes,
 		string $match

@@ -38,6 +38,7 @@ abstract class AbstractKeyword
 	}
 
 	abstract public function processShortcode(
+		string $keyword,
 		string $value,
 		array $attributes,
 		string $match
