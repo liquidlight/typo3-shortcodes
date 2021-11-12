@@ -8,6 +8,8 @@ Wordpress style shortcodes
 
 #### Spotify
 
+`[spotify]`
+
 Go to Spotify and click on what you want to embed - song, artist, playlist etc.
 
 Click the 3 dots -> Share -> Copy Link
@@ -28,6 +30,22 @@ Click the 3 dots -> Share -> Copy Link
 ```
 
 #### Twitter
+
+`[twitter | tweet]`
+
+Copy the URL (or the status code) of a tweet
+
+```
+[twitter: https://twitter.com/Interior/status/463440424141459456 ]
+```
+
+**Properties:**
+
+Any properties are passed through to the [oembed-api](https://developer.twitter.com/en/docs/twitter-for-websites/timelines/guides/oembed-api), so the list & defaults can be found there
+
+```
+[tweet: https://twitter.com/Interior/status/463440424141459456, theme=light]
+```
 
 #### Video
 
