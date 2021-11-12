@@ -53,7 +53,30 @@ Allows a generic iframe to be rendered with the passed in URL
 Embeds an Instagram post
 
 ```
-[instgram: https://www.instagram.com/p/CWI-FeDs-us/ ]
+[instagram: https://www.instagram.com/p/CWI-FeDs-us/ ]
+```
+
+#### LinkedIn
+
+`[linkedin]`
+
+Embeds an Linked post - ensure the url has `urn:li:activity` or similar in it.
+
+For example:
+
+```
+[linkedin: https://www.linkedin.com/feed/update/urn:li:activity:6856570271759949825/ ]
+```
+
+**Properties:**
+
+- height
+- width
+
+**Defaults:**
+
+```
+[linkedin: LINK, width = 100%, height = 600]
 ```
 
 #### Spotify
