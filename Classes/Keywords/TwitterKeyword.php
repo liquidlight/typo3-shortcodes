@@ -48,7 +48,7 @@ class TwitterKeyword extends VideoKeyword
 		// Get the tweet
 		if ($tweet = file_get_contents('https://api.twitter.com/1.1/statuses/oembed.json?' . http_build_query($parameters))) {
 			if ($tweet = @json_decode($tweet, true)) {
-				return $tweet['html'];
+				return '<div class="shortcode twitter">' . $tweet['html'] . '</div>';
 			}
 		}
 	}

@@ -16,7 +16,7 @@ class VideoKeyword extends AbstractKeyword
 		string $match
 	) {
 		return sprintf(
-			'<div class="video" data-ratio="%s"><iframe src="%s" %s allowfullscreen></iframe></div>',
+			'<div class="shortcode video" data-ratio="%s"><iframe src="%s" %s allowfullscreen></iframe></div>',
 			$this->getRatio($attributes),
 			$value,
 			(

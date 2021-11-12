@@ -12,7 +12,7 @@ class VimeoKeyword extends VideoKeyword
 		preg_match('/vimeo\.com\/([0-9]{1,10})/', $value, $matches);
 
 		return sprintf(
-			'<div class="video vimeo" data-ratio="%s"><iframe src="https://player.vimeo.com/video/%s" %s allowfullscreen></iframe></div>',
+			'<div class="shortcode video vimeo" data-ratio="%s"><iframe src="https://player.vimeo.com/video/%s" %s allowfullscreen></iframe></div>',
 			$this->getRatio($attributes),
 			(count($matches) ? trim($matches[1]) : $value),
 			(

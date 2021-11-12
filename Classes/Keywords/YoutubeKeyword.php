@@ -10,7 +10,7 @@ class YoutubeKeyword extends VideoKeyword
 		string $match
 	) {
 		return sprintf(
-			'<div class="video youtube" data-ratio="%s"><iframe src="https://www.youtube-nocookie.com/embed/%s" %s allowfullscreen></iframe></div>',
+			'<div class="shortcode video youtube" data-ratio="%s"><iframe src="https://www.youtube-nocookie.com/embed/%s" %s allowfullscreen></iframe></div>',
 			$this->getRatio($attributes),
 			($this->getYoutubeCode($value) ?: $value),
 			(
