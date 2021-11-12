@@ -27,6 +27,28 @@ Copy the URL of a facebook post or video
 [facebook: LINK, width = 500]
 ```
 
+#### Iframe
+
+`[iframe]`
+
+Allows a generic iframe to be rendered with the passed in URL
+
+```
+[iframe: https://typo3.com/ ]
+```
+
+**Properties:**
+
+- width
+- height
+- allowfullscreen
+- allow
+- frameBorder
+
+**Defaults**
+
+None
+
 #### Spotify
 
 `[spotify]`

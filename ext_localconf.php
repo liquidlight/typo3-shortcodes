@@ -28,4 +28,7 @@ call_user_func(function () {
 		\LiquidLight\Shortcodes\Keywords\FacebookKeyword::class;
 	$shortcodesExtConf['processShortcode']['facebookvideo'] =
 		\LiquidLight\Shortcodes\Keywords\FacebookKeyword::class;
+
+	$shortcodesExtConf['processShortcode']['iframe'] =
+		\LiquidLight\Shortcodes\Keywords\IframeKeyword::class;
 });
