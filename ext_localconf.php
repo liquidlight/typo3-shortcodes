@@ -20,4 +20,7 @@ call_user_func(function () {
 		\LiquidLight\Shortcodes\Keywords\TwitterKeyword::class;
 	$shortcodesExtConf['processShortcode']['tweet'] =
 		\LiquidLight\Shortcodes\Keywords\TwitterKeyword::class;
+
+	$shortcodesExtConf['processShortcode']['spotify'] =
+		\LiquidLight\Shortcodes\Keywords\SpotifyKeyword::class;
 });
