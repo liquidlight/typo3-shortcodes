@@ -20,12 +20,12 @@ class SpotifyKeyword extends AbstractKeyword
 		$value = strtok($value, '?');
 
 		// Make the URL an "embed" URL
-		if(strpos($value, 'open.spotify.com/embed') === false) {
+		if (strpos($value, 'open.spotify.com/embed') === false) {
 			$value = str_replace('open.spotify.com/', 'open.spotify.com/embed/', $value);
 		}
 
 		// Height can only be 380 or 80
-		if(isset($attributes['height']) && !in_array((int)$attributes['height'], [80, 380])) {
+		if (isset($attributes['height']) && !in_array((int)$attributes['height'], [80, 380])) {
 			$attributes['height'] = 380;
 		}
 
