@@ -15,4 +15,9 @@ call_user_func(function () {
 		\LiquidLight\Shortcodes\Keywords\YoutubeKeyword::class;
 	$shortcodesExtConf['processShortcode']['vimeo'] =
 		\LiquidLight\Shortcodes\Keywords\VimeoKeyword::class;
+
+	$shortcodesExtConf['processShortcode']['twitter'] =
+		\LiquidLight\Shortcodes\Keywords\TwitterKeyword::class;
+	$shortcodesExtConf['processShortcode']['tweet'] =
+		\LiquidLight\Shortcodes\Keywords\TwitterKeyword::class;
 });

@@ -22,6 +22,15 @@ abstract class AbstractKeyword
 	 */
 	protected $body;
 
+	/**
+	 * attributes
+	 *
+	 * A list of allowed attributes - everything else gets removed
+	 *
+	 * @var array
+	 */
+	protected $attributes = [];
+
 	public function __construct(Response $response, string $body)
 	{
 		$this->response = $response;
