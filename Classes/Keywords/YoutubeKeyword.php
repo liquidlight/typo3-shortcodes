@@ -2,14 +2,22 @@
 
 namespace LiquidLight\Shortcodes\Keywords;
 
-class YoutubeKeyword extends AbstractKeyword
+class YoutubeKeyword extends VideoKeyword
 {
 	public function processShortcode(
 		string $value,
 		array $attributes,
 		string $match
 	) {
-		return '<div class="video youtube"><iframe src="https://www.youtube-nocookie.com/embed/' . ($this->getYoutubeCode($value) ?: $value) . '?modestbranding=1" allowfullscreen></iframe></div>';
+		return sprintf(
+			'<div class="video youtube" data-ratio="%s"><iframe src="https://www.youtube-nocookie.com/embed/%s" %s allowfullscreen></iframe></div>',
+			$this->getRatio($attributes),
+			($this->getYoutubeCode($value) ?: $value),
+			(
+				(isset($attributes['width']) ? 'width="' . $attributes['width'] . '" ' : '') .
+				(isset($attributes['height']) ? 'height="' . $attributes['height'] . '" ' : '')
+			)
+		);
 	}
 
 	/**

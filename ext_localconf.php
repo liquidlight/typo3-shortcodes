@@ -9,6 +9,8 @@ call_user_func(function () {
 		$shortcodesExtConf['processShortcode'] = [];
 	}
 
+	$shortcodesExtConf['processShortcode']['video'] =
+		\LiquidLight\Shortcodes\Keywords\VideoKeyword::class;
 	$shortcodesExtConf['processShortcode']['youtube'] =
 		\LiquidLight\Shortcodes\Keywords\YoutubeKeyword::class;
 	$shortcodesExtConf['processShortcode']['vimeo'] =

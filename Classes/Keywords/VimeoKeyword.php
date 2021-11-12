@@ -2,7 +2,7 @@
 
 namespace LiquidLight\Shortcodes\Keywords;
 
-class VimeoKeyword extends AbstractKeyword
+class VimeoKeyword extends VideoKeyword
 {
 	public function processShortcode(
 		string $value,
@@ -11,6 +11,14 @@ class VimeoKeyword extends AbstractKeyword
 	) {
 		preg_match('/vimeo\.com\/([0-9]{1,10})/', $value, $matches);
 
-		return '<div class="video vimeo"><iframe src="https://player.vimeo.com/video/' . (count($matches) ? trim($matches[1]) : $value) . '" allowfullscreen></iframe></div>';
+		return sprintf(
+			'<div class="video vimeo" data-ratio="%s"><iframe src="https://player.vimeo.com/video/%s" %s allowfullscreen></iframe></div>',
+			$this->getRatio($attributes),
+			(count($matches) ? trim($matches[1]) : $value),
+			(
+				(isset($attributes['width']) ? 'width="' . $attributes['width'] . '" ' : '') .
+				(isset($attributes['height']) ? 'height="' . $attributes['height'] . '" ' : '')
+			)
+		);
 	}
 }
