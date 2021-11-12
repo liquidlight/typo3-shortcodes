@@ -2,10 +2,16 @@
 
 defined('TYPO3_MODE') or die();
 
-$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['ke_search']['modifyPagesIndexEntry'][] =
-	\LiquidLight\KeSearch\Hook\IndexHook::class;
+call_user_func(function () {
 
-$GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['shortcodes']['processShortcode'] = [
-	'youtube' => \LiquidLight\Shortcodes\Keywords\YoutubeShortcode::class,
-	'vimeo' => \LiquidLight\Shortcodes\Keywords\VimeoShortcode::class,
-];
+	$shortcodesExtConf = & $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['shortcodes'];
+
+	if(!is_array($shortcodesExtConf['processShortcode'])) {
+		$shortcodesExtConf['processShortcode'] = [];
+	}
+
+	$shortcodesExtConf['processShortcode']['youtube'] =
+		\LiquidLight\Shortcodes\Keywords\YoutubeShortcode::class;
+		$shortcodesExtConf['processShortcode']['vimeo'] =
+		\LiquidLight\Shortcodes\Keywords\VimeoShortcode::class;
+});
