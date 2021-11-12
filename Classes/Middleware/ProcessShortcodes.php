@@ -62,6 +62,9 @@ class ProcessShortcodes implements MiddlewareInterface
 
 				$data = $this->extractData($pageShortcodes[2][$index]);
 
+				// Remove any attributes we don't know about
+				$keywordConfigs[$keyword]->sanitiseAttributes($data['attributes']);
+
 				// Fire method and get built HTML
 				$result = $keywordConfigs[$keyword]->processShortcode(
 					$data['value'],

@@ -32,7 +32,7 @@ class TwitterKeyword extends VideoKeyword
 	) {
 		// Set dnt off by default
 		$parameters = [
-			'dnt' => true
+			'dnt' => true,
 		];
 
 		// Merge passed in parameters

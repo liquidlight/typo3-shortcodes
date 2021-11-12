@@ -42,4 +42,13 @@ abstract class AbstractKeyword
 		array $attributes,
 		string $match
 	);
+
+	public function sanitiseAttributes(&$attributes): void
+	{
+		foreach ($attributes as $key => $value) {
+			if (!in_array($key, $this->attributes)) {
+				unset($attributes[$key]);
+			}
+		}
+	}
 }

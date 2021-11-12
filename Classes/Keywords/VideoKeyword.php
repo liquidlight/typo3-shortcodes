@@ -4,6 +4,12 @@ namespace LiquidLight\Shortcodes\Keywords;
 
 class VideoKeyword extends AbstractKeyword
 {
+	protected $attributes = [
+		'width',
+		'height',
+		'ratio',
+	];
+
 	public function processShortcode(
 		string $value,
 		array $attributes,
@@ -34,12 +40,12 @@ class VideoKeyword extends AbstractKeyword
 		$ratio = '16:9';
 
 		// Return existing ratio if set - create a standard separated by colon
-		if(isset($attributes['ratio'])){
+		if (isset($attributes['ratio'])) {
 			return str_replace('/', ':', $attributes['ratio']);
 		}
 
 		// Return default if we don't have width and height
-		if(!isset($attributes['width']) || !isset($attributes['height'])) {
+		if (!isset($attributes['width']) || !isset($attributes['height'])) {
 			return $ratio;
 		}
 
@@ -48,13 +54,13 @@ class VideoKeyword extends AbstractKeyword
 		$height = preg_replace('/[^0-9]/', '', $attributes['height']);
 
 		// Return default if we don't have numeric widths & heights
-		if(!(bool)$width || !(bool)$height) {
+		if (!(bool)$width || !(bool)$height) {
 			return $ratio;
 		}
 
 		// Calculate ratio
-		for($i = $height; $i > 1; $i--) {
-			if(($width % $i) == 0 && ($height % $i) == 0) {
+		for ($i = $height; $i > 1; $i--) {
+			if (($width % $i) == 0 && ($height % $i) == 0) {
 				$width = $width / $i;
 				$height = $height / $i;
 			}
