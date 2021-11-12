@@ -6,6 +6,27 @@ Wordpress style shortcodes
 
 ### Existing Shortcodes
 
+#### Facebook
+
+`[facebook]`
+
+Copy the URL of a facebook post or video
+
+```
+[facebook: https://www.facebook.com/20531316728/posts/10154009990506729/ ]
+```
+
+**Properties:**
+
+- width
+- height
+
+**Defaults:**
+
+```
+[facebook: LINK, width = 500]
+```
+
 #### Spotify
 
 `[spotify]`

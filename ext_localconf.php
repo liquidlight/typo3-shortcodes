@@ -23,4 +23,9 @@ call_user_func(function () {
 
 	$shortcodesExtConf['processShortcode']['spotify'] =
 		\LiquidLight\Shortcodes\Keywords\SpotifyKeyword::class;
+
+	$shortcodesExtConf['processShortcode']['facebook'] =
+		\LiquidLight\Shortcodes\Keywords\FacebookKeyword::class;
+	$shortcodesExtConf['processShortcode']['facebookvideo'] =
+		\LiquidLight\Shortcodes\Keywords\FacebookKeyword::class;
 });
