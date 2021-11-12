@@ -2,12 +2,12 @@
 
 namespace LiquidLight\Shortcodes\Keywords;
 
-class VimeoShortcode
+class VimeoShortcode extends AbstractShortcode
 {
 	public function processShortcode(
-		$value,
-		$full_string,
-		$response
+		string $value,
+		array $attributes,
+		string $match
 	) {
 		preg_match('/vimeo\.com\/([0-9]{1,10})/', $value, $matches);
 

@@ -34,7 +34,11 @@ class ProcessShortcodes implements MiddlewareInterface
 		// (i.e. if their keyword was found)
 		foreach ($keywordConfigs as $keyword => $_classRef) {
 			if (in_array($keyword, $pageShortcodes[1])) {
-				$keywordConfigs[$keyword] = GeneralUtility::makeInstance($_classRef);
+				$keywordConfigs[$keyword] = GeneralUtility::makeInstance(
+					$_classRef,
+					$response,
+					$body
+				);
 			}
 		}
 
@@ -59,8 +63,8 @@ class ProcessShortcodes implements MiddlewareInterface
 
 				$result = $keywordConfigs[$keyword]->processShortcode(
 					$value,
-					$full_string,
-					$response
+					[],
+					$full_string
 				);
 
 				// Did our config return something? Find and replace the origin full_String

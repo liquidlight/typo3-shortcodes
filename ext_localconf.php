@@ -3,15 +3,14 @@
 defined('TYPO3_MODE') or die();
 
 call_user_func(function () {
+	$shortcodesExtConf = &$GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['shortcodes'];
 
-	$shortcodesExtConf = & $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['shortcodes'];
-
-	if(!is_array($shortcodesExtConf['processShortcode'])) {
+	if (!is_array($shortcodesExtConf['processShortcode'])) {
 		$shortcodesExtConf['processShortcode'] = [];
 	}
 
 	$shortcodesExtConf['processShortcode']['youtube'] =
 		\LiquidLight\Shortcodes\Keywords\YoutubeShortcode::class;
-		$shortcodesExtConf['processShortcode']['vimeo'] =
+	$shortcodesExtConf['processShortcode']['vimeo'] =
 		\LiquidLight\Shortcodes\Keywords\VimeoShortcode::class;
 });

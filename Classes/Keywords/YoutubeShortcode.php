@@ -2,12 +2,12 @@
 
 namespace LiquidLight\Shortcodes\Keywords;
 
-class YoutubeShortcode
+class YoutubeShortcode extends AbstractShortcode
 {
 	public function processShortcode(
-		$value,
-		$full_string,
-		$response
+		string $value,
+		array $attributes,
+		string $match
 	) {
 		return '<div class="video youtube"><iframe src="https://www.youtube-nocookie.com/embed/' . ($this->getYoutubeCode($value) ?: $value) . '?modestbranding=1" allowfullscreen></iframe></div>';
 	}
