@@ -14,24 +14,36 @@ class ProcessShortcodes implements MiddlewareInterface
 {
 	public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
 	{
+		// Create a response
 		$response = $handler->handle($request);
+
+		// Get the page as a string
 		$body = $response->getBody()->__toString();
 
 		// Get our defined shortcodes
 		$keywordConfigs = GeneralUtility::makeInstance(ExtensionConfiguration::class)
 			->get('shortcodes', 'processShortcode')
-		;
+			;
 
 		// Find all the shortcodes in the page
 		preg_match_all('/\[([a-zA-Z0-9]*?):(.*?)\]/', $body, $pageShortcodes);
 
-		// Check we have shortcodes & classes to handle them
-		if (!count($keywordConfigs) || !count($pageShortcodes)) {
+		// Lowercase all the found keywords to match registered keywords
+		$pageShortcodes[1] = array_map('strtolower', $pageShortcodes[1]);
+
+		if (
+			// No registred keywords?
+			!count($keywordConfigs) ||
+			// No found shortcodes?
+			!count($pageShortcodes) ||
+			// None of the found shortcodes match registred keywords?
+			!count(array_intersect(array_keys($keywordConfigs), $pageShortcodes[1]))
+		) {
+			// Return the unmodified response
 			return $response;
 		}
 
 		// Instantiate the classes we'll need for this page
-		// (i.e. if their keyword was found)
 		foreach ($keywordConfigs as $keyword => $_classRef) {
 			if (in_array($keyword, $pageShortcodes[1])) {
 				$keywordConfigs[$keyword] = GeneralUtility::makeInstance(
@@ -58,7 +70,7 @@ class ProcessShortcodes implements MiddlewareInterface
 				$value = urldecode($value);
 				// Remove all spaces
 				$value = preg_replace('/\xc2\xa0/', ' ', $value);
-				// // Trim the string of leading/trailing space
+				// Trim the string of leading/trailing space
 				$value = trim($value);
 
 				$result = $keywordConfigs[$keyword]->processShortcode(
