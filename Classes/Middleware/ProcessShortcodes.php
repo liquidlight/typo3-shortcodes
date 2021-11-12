@@ -58,35 +58,59 @@ class ProcessShortcodes implements MiddlewareInterface
 		foreach ($pageShortcodes[1] as $index => $keyword) {
 			if (in_array($keyword, array_keys($keywordConfigs))) {
 				// e.g. [youtube: www.youtube.com/?v=123]
-				$full_string = $pageShortcodes[0][$index];
+				$match = $pageShortcodes[0][$index];
 
-				// Extract value, e.g. www.youtube.com/?v=123
-				$value = $pageShortcodes[2][$index];
-				// Strip HTML Tags
-				$value = strip_tags($value);
-				// Clean up things like &amp;
-				$value = html_entity_decode($value);
-				// Strip out any url-encoded stuff
-				$value = urldecode($value);
-				// Remove all spaces
-				$value = preg_replace('/\xc2\xa0/', ' ', $value);
-				// Trim the string of leading/trailing space
-				$value = trim($value);
+				$data = $this->extractData($pageShortcodes[2][$index]);
 
+				// Fire method and get built HTML
 				$result = $keywordConfigs[$keyword]->processShortcode(
-					$value,
-					[],
-					$full_string
+					$data['value'],
+					$data['attributes'],
+					$match
 				);
 
-				// Did our config return something? Find and replace the origin full_String
+				// Did our config return something? Find and replace the origin match
 				if ($result) {
-					$body = str_replace($full_string, $result, $body);
+					$body = str_replace($match, $result, $body);
 				}
 			}
 		}
 
 		// Return the modified HTML
 		return new HtmlResponse($body);
+	}
+
+	private function extractData(string $input): array
+	{
+		// Anything after the colon
+		$value = $input;
+		// Strip HTML Tags
+		$value = strip_tags($value);
+		// Clean up things like &amp;
+		$value = html_entity_decode($value);
+		// Replace space-like characters with a space
+		$value = preg_replace('/\xc2\xa0/', ' ', $value);
+
+		// Create array from any extra properties passed in
+		$properties = explode(',', $value);
+
+		// Store the first item - this is the URL or code
+		$value = trim(array_shift($properties));
+
+		$attributes = [];
+		foreach ($properties as $property) {
+			$attribute = explode('=', $property);
+
+			if (count($attribute) !== 2) {
+				continue;
+			}
+
+			$attributes[trim($attribute[0])] = trim($attribute[1]);
+		}
+
+		return [
+			'value' => $value,
+			'attributes' => $attributes,
+		];
 	}
 }
