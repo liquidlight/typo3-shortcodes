@@ -8,7 +8,7 @@ namespace LiquidLight\Shortcodes\Keywords;
  * Uses Embed API
  * https://developer.twitter.com/en/docs/twitter-for-websites/timelines/guides/oembed-api
  */
-class TwitterKeyword extends VideoKeyword
+class TwitterKeyword extends AbstractKeyword
 {
 	protected $attributes = [
 		'theme',
