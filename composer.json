@@ -3,7 +3,7 @@
     "description": "Wordpress-style shortcodes for page content",
     "type": "typo3-cms-extension",
     "require": {
-        "typo3/cms-core": "^9.5"
+        "typo3/cms-core": "^9.5 || ^10.4 || ^11.5"
     },
     "authors": [
         {
