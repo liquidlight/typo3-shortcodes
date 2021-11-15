@@ -37,4 +37,6 @@ call_user_func(function () {
 
 	$shortcodesExtConf['processShortcode']['linkedin'] =
 		\LiquidLight\Shortcodes\Keywords\LinkedInKeyword::class;
+	$shortcodesExtConf['processShortcode']['soundcloud'] =
+		\LiquidLight\Shortcodes\Keywords\SoundcloudKeyword::class;
 });

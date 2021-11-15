@@ -6,7 +6,7 @@ class InstagramKeyword extends AbstractKeyword
 {
 	protected $attributes = [
 		'url',
-		'code'
+		'code',
 	];
 
 	public function processShortcode(

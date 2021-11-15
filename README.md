@@ -124,6 +124,27 @@ For example:
 [linkedin=LINK width="100%" height="600"]
 ```
 
+### Soundcloud
+
+`[soundcloud]`
+
+Shows a Soundcloud player for a track or artists - can have the size & colour customised. Use the URL
+
+For example:
+
+```
+[soundcloud=https://soundcloud.com/cbschmidt/seodriven-331 ]
+```
+
+**Properties:**
+
+- url
+- maxwidth
+- maxheight - can be 166 or 450
+- color
+- auto_play
+- show_comments
+
 ### Spotify
 
 `[spotify]`
