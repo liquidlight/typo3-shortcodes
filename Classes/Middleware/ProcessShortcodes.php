@@ -59,6 +59,7 @@ class ProcessShortcodes implements MiddlewareInterface
 			$match = $pageShortcodes[0][$index];
 
 			$attributes = $this->extractData($keyword, $pageShortcodes[1][$index]);
+			debug($attributes);
 
 			// Remove any attributes we don't know about
 			$keywordConfigs[$keyword]->removeAlienAttributes($attributes);
@@ -93,11 +94,11 @@ class ProcessShortcodes implements MiddlewareInterface
 	 */
 	private function extractData(string $keyword, string $data): array
 	{
-		$input = trim($input);
-		$data = $this->sanitiseData($data);
-
+		// Replace keyword:value with keyword=value
 		$data = preg_replace('/' . $keyword . ' ?: ?/', $keyword . '=', $data);
-		$properties = explode(' ', $data);
+
+		// Split on spaces that are not in quotes
+		$properties = preg_split('/\s(?=([^"]*"[^"]*")*[^"]*$)/', $data);
 
 		foreach ($properties as $property) {
 			// key="value"
@@ -112,7 +113,6 @@ class ProcessShortcodes implements MiddlewareInterface
 			if (trim($attribute[0]) === $keyword) {
 				$attribute[0] = 'value';
 			}
-
 			$attributes[trim($attribute[0])] = $this->sanitiseData($attribute[1]);
 		}
 

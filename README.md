@@ -71,6 +71,36 @@ Copy the URL of a facebook post or video
 [facebook=LINK width="500"]
 ```
 
+### Google Maps
+
+`[googlemaps]`
+
+**⚠️ Google Maps [requires an API key setting up](https://developers.google.com/maps/documentation/embed/cloud-setup) - see the setup section below for adding your key**
+
+Shows a place, satellite, directions or streetview of a place.
+
+```
+[googlemaps search="Paris" ]
+```
+
+**Properties:**
+
+All the properties are of that listed  [in the documentation](https://developers.google.com/maps/documentation/embed/embedding-map).
+
+The only one that is different is `search` can be used instead of `q`
+
+### Setup
+
+To use the `googlemaps` shortcode, an API key must be set.
+
+By default, it will look in your `$_ENV` variables for `GOOGLE_MAP_API`.
+
+However it can be set in `ext_localconf` however you see fit (please don't commit your API key).
+
+```php
+$GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['shortcodes']['config']['api']['googlemaps'] = '123';
+```
+
 ### Iframe
 
 `[iframe]`

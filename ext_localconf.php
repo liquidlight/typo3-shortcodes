@@ -9,6 +9,11 @@ call_user_func(function () {
 		$shortcodesExtConf['processShortcode'] = [];
 	}
 
+	$shortcodesExtConf['config']['api']['googlemaps'] = $_ENV['GOOGLE_MAP_API'] ?: false;
+
+	$shortcodesExtConf['processShortcode']['googlemaps'] =
+		\LiquidLight\Shortcodes\Keywords\GoogleMapsKeyword::class;
+
 	$shortcodesExtConf['processShortcode']['video'] =
 		\LiquidLight\Shortcodes\Keywords\VideoKeyword::class;
 	$shortcodesExtConf['processShortcode']['youtube'] =
