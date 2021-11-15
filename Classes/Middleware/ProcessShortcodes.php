@@ -96,7 +96,7 @@ class ProcessShortcodes implements MiddlewareInterface
 			}
 
 			// $attributes['key'] = 'value';
-			if(trim($attribute[0]) === $keyword) {
+			if (trim($attribute[0]) === $keyword) {
 				$attribute[0] = 'value';
 			}
 
