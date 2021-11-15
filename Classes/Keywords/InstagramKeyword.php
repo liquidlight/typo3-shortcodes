@@ -5,6 +5,8 @@ namespace LiquidLight\Shortcodes\Keywords;
 class InstagramKeyword extends AbstractKeyword
 {
 	protected $attributes = [
+		'url',
+		'code'
 	];
 
 	public function processShortcode(
@@ -12,6 +14,13 @@ class InstagramKeyword extends AbstractKeyword
 		array $attributes,
 		string $match
 	) {
-		return '<div class="shortcode photo instagram"><blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="' . $attributes['value'] . '" data-instgrm-version="14"></blockquote><script async src="//www.instagram.com/embed.js"></script></div>';
+		$parameters['url'] = isset($attributes['code']) ? ('https://www.instagram.com/p/' . $attributes['code']) :
+			($attributes['url'] ?: $attributes['value']);
+
+		if ($post = file_get_contents('https://api.instagram.com/oembed/?' . http_build_query($parameters))) {
+			if ($post = @json_decode($post, true)) {
+				return '<div class="shortcode photo instagram">' . $post['html'] . '</div>';
+			}
+		}
 	}
 }
