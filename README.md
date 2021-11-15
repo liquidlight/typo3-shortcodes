@@ -10,7 +10,7 @@ To use the shortcodes, you can use a shorthand syntax or follow the Wordpress, H
 
 More details below as to the exact usage for each tag, but as an example, the Youtube one could be used like one of the following:
 
-** ⚠️ If using a full URL, it is worth leaving a space between the end of the link and the closing square bracket - this prevents the `]` being used in the link**
+**⚠️ If using a full URL, it is worth leaving a space between the end of the link and the closing square bracket - this prevents the `]` being used in the link**
 
 ### Shorthand colon syntax
 
