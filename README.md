@@ -21,7 +21,7 @@ More details below as to the exact usage for each tag, but as an example, the Yo
 ### Shorthand equals syntax
 
 ```
-[youtube = https://www.youtube.com/watch?v=JrFFN9lag2w ]
+[youtube=https://www.youtube.com/watch?v=JrFFN9lag2w ]
 ```
 
 ### Wordpress Long-form syntax
@@ -39,18 +39,19 @@ More details below as to the exact usage for each tag, but as an example, the Yo
 Copy the URL of a facebook post or video
 
 ```
-[facebook: https://www.facebook.com/20531316728/posts/10154009990506729/ ]
+[facebook=https://www.facebook.com/20531316728/posts/10154009990506729/ ]
 ```
 
 **Properties:**
 
+- url
 - width
 - height
 
 **Defaults:**
 
 ```
-[facebook: LINK, width = 500]
+[facebook=LINK width="500"]
 ```
 
 #### Iframe
@@ -65,6 +66,7 @@ Allows a generic iframe to be rendered with the passed in URL
 
 **Properties:**
 
+- url
 - width
 - height
 - allowfullscreen
@@ -79,7 +81,7 @@ Allows a generic iframe to be rendered with the passed in URL
 Embeds an Instagram post
 
 ```
-[instagram: https://www.instagram.com/p/CWI-FeDs-us/ ]
+[instagram=https://www.instagram.com/p/CWI-FeDs-us/ ]
 ```
 
 #### LinkedIn
@@ -91,7 +93,7 @@ Embeds an Linked post - ensure the url has `urn:li:activity` or similar in it.
 For example:
 
 ```
-[linkedin: https://www.linkedin.com/feed/update/urn:li:activity:6856570271759949825/ ]
+[linkedin=https://www.linkedin.com/feed/update/urn:li:activity:6856570271759949825/ ]
 ```
 
 **Properties:**
@@ -102,7 +104,7 @@ For example:
 **Defaults:**
 
 ```
-[linkedin: LINK, width = 100%, height = 600]
+[linkedin=LINK width="100%" height="600"]
 ```
 
 #### Spotify
@@ -114,7 +116,7 @@ Go to Spotify and click on what you want to embed - song, artist, playlist etc.
 Click the 3 dots -> Share -> Copy Link
 
 ```
-[spotify: https://open.spotify.com/track/3gdewACMIVMEWVbyb8O9sY?si=145df8aede6a4b04 ]
+[spotify=https://open.spotify.com/track/3gdewACMIVMEWVbyb8O9sY?si=145df8aede6a4b04 ]
 ```
 
 **Properties:**
@@ -125,7 +127,7 @@ Click the 3 dots -> Share -> Copy Link
 **Defaults:**
 
 ```
-[spotify: LINK, height = 380, theme = 1]
+[spotify=LINK height="380" theme="1"]
 ```
 
 #### Twitter
@@ -135,7 +137,7 @@ Click the 3 dots -> Share -> Copy Link
 Copy the URL (or the status code) of a tweet
 
 ```
-[twitter: https://twitter.com/Interior/status/463440424141459456 ]
+[twitter=https://twitter.com/Interior/status/463440424141459456 ]
 ```
 
 **Properties:**
@@ -143,11 +145,47 @@ Copy the URL (or the status code) of a tweet
 Any properties are passed through to the [oembed-api](https://developer.twitter.com/en/docs/twitter-for-websites/timelines/guides/oembed-api), so the list & defaults can be found there
 
 ```
-[tweet: https://twitter.com/Interior/status/463440424141459456, theme=light]
+[tweet=https://twitter.com/Interior/status/463440424141459456 theme="light"]
 ```
 
 #### Video
 
+`[video]`
+
+The video element outputs an `<iframe>` with the src of that passed in. It allows an arbitrary URL to a video to be passed in and it will wrap it in a `<div>` for responsive styling purposes.
+
+```
+[video=https://www.liquidlight.co.uk/path/to/video ]
+```
+
+**Properties**
+
+- code - optional if using the shorthand syntax
+- url - optional if using the shorthand syntax
+- width
+- height
+- ratio - video ratio in a colon format (e.g. `ratio="4:3"`) - defaults to `16:9` - rendered as a `data-ratio` attribute for styling
+
 #### Vimeo
 
+`[vimeo]`
+
+Renders a Vimeo iframe embed. Can take a full URL or code.
+
+```
+[vimeo=]
+```
+
+See [Video](#video) for properties and use.
+
 #### Youtube
+
+`[youtube]`
+
+Renders a Youtube iframe embed. Can take a full URL or code.
+
+```
+[youtube=https://www.youtube.com/watch?v=JrFFN9lag2w ]
+```
+
+See [Video](#video) for properties and use.
