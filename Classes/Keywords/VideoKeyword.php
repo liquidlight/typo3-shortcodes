@@ -5,6 +5,8 @@ namespace LiquidLight\Shortcodes\Keywords;
 class VideoKeyword extends AbstractKeyword
 {
 	protected $attributes = [
+		'code',
+		'url',
 		'width',
 		'height',
 		'ratio',

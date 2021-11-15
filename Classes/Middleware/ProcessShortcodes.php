@@ -12,8 +12,10 @@ use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 
 class ProcessShortcodes implements MiddlewareInterface
 {
-	public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
-	{
+	public function process(
+		ServerRequestInterface $request,
+		RequestHandlerInterface $handler
+	): ResponseInterface {
 		// Create a response
 		$response = $handler->handle($request);
 
@@ -25,58 +27,51 @@ class ProcessShortcodes implements MiddlewareInterface
 			->get('shortcodes', 'processShortcode')
 			;
 
-		// Find all the shortcodes in the page
-		preg_match_all('/\[([a-zA-Z0-9]*?):(.*?)\]/', $body, $pageShortcodes);
+		$keywords = implode('|', array_keys($keywordConfigs));
 
-		// Lowercase all the found keywords to match registered keywords
-		$pageShortcodes[1] = array_map('strtolower', $pageShortcodes[1]);
+		// Find all the shortcodes in the page
+		preg_match_all('/\[(' . $keywords . ')(.*?)\]/', $body, $pageShortcodes);
 
 		if (
-			// No registred keywords?
+			// No registered keywords?
 			!count($keywordConfigs) ||
 			// No found shortcodes?
-			!count($pageShortcodes) ||
-			// None of the found shortcodes match registred keywords?
-			!count(array_intersect(array_keys($keywordConfigs), $pageShortcodes[1]))
+			!count($pageShortcodes)
 		) {
 			// Return the unmodified response
 			return $response;
 		}
-
 		// Instantiate the classes we'll need for this page
-		foreach ($keywordConfigs as $keyword => $_classRef) {
-			if (in_array($keyword, $pageShortcodes[1])) {
-				$keywordConfigs[$keyword] = GeneralUtility::makeInstance(
-					$_classRef,
-					$response,
-					$body
-				);
-			}
+		foreach (array_unique($pageShortcodes[1]) as $keyword) {
+			$keywordConfigs[$keyword] = GeneralUtility::makeInstance(
+				$keywordConfigs[$keyword],
+				$response,
+				$body
+			);
 		}
 
 		// Loop through the keywords and process
 		foreach ($pageShortcodes[1] as $index => $keyword) {
-			if (in_array($keyword, array_keys($keywordConfigs))) {
-				// e.g. [youtube: www.youtube.com/?v=123]
-				$match = $pageShortcodes[0][$index];
+			// e.g. [youtube: www.youtube.com/?v=123]
+			$match = $pageShortcodes[0][$index];
 
-				$data = $this->extractData($pageShortcodes[2][$index]);
+			$data = $this->extractData($pageShortcodes[2][$index]);
+			debug($data);
 
-				// Remove any attributes we don't know about
-				$keywordConfigs[$keyword]->sanitiseAttributes($data['attributes']);
+			// Remove any attributes we don't know about
+			$keywordConfigs[$keyword]->sanitiseAttributes($data['attributes']);
 
-				// Fire method and get built HTML
-				$result = $keywordConfigs[$keyword]->processShortcode(
-					$keyword,
-					$data['value'],
-					$data['attributes'],
-					$match
-				);
+			// Fire method and get built HTML
+			$result = $keywordConfigs[$keyword]->processShortcode(
+				$keyword,
+				$data['value'],
+				$data['attributes'],
+				$match
+			);
 
-				// Did our config return something? Find and replace the origin match
-				if ($result) {
-					$body = str_replace($match, $result, $body);
-				}
+			// Did our config return something? Find and replace the origin match
+			if ($result) {
+				$body = str_replace($match, $result, $body);
 			}
 		}
 
@@ -86,35 +81,53 @@ class ProcessShortcodes implements MiddlewareInterface
 
 	private function extractData(string $input): array
 	{
-		// Anything after the colon
-		$value = $input;
+		$input = trim($input);
+
+		switch (substr($input, 0, 1)) {
+			case ':':
+				$properties = explode(',', ltrim($input, ':'));
+				$value = $this->sanitiseData(trim(array_shift($properties)));
+				break;
+			case '=':
+				$properties = explode(' ', ltrim($input, '='));
+				$value = $this->sanitiseData(trim(array_shift($properties)));
+				break;
+			default:
+				$properties = explode(' ', $input);
+				break;
+		}
+
+		$attributes = [];
+		foreach ($properties as $property) {
+			// key="value"
+			$attribute = explode('=', $property);
+
+			// If it is not a ['key', 'value']
+			if (count($attribute) !== 2) {
+				continue;
+			}
+
+			// $attributes['key'] = 'value';
+			$attributes[trim($attribute[0])] = $this->sanitiseData($attribute[1]);
+		}
+
+		return [
+			'value' => $value ?: '',
+			'attributes' => $attributes,
+		];
+	}
+
+	protected function sanitiseData($value)
+	{
 		// Strip HTML Tags
 		$value = strip_tags($value);
 		// Clean up things like &amp;
 		$value = html_entity_decode($value);
 		// Replace space-like characters with a space
 		$value = preg_replace('/\xc2\xa0/', ' ', $value);
+		// Strip spces and quotes
+		$value = trim($value, " \n\r\t\v\0\"\'");
 
-		// Create array from any extra properties passed in
-		$properties = explode(',', $value);
-
-		// Store the first item - this is the URL or code
-		$value = trim(array_shift($properties));
-
-		$attributes = [];
-		foreach ($properties as $property) {
-			$attribute = explode('=', $property);
-
-			if (count($attribute) !== 2) {
-				continue;
-			}
-
-			$attributes[trim($attribute[0])] = trim($attribute[1]);
-		}
-
-		return [
-			'value' => $value,
-			'attributes' => $attributes,
-		];
+		return $value;
 	}
 }

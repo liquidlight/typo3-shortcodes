@@ -10,6 +10,8 @@ class YoutubeKeyword extends VideoKeyword
 		array $attributes,
 		string $match
 	) {
+		$value = $attributes['code'] ?: $attributes['url'] ?: $value;
+
 		return sprintf(
 			'<div class="shortcode video youtube" data-ratio="%s"><iframe src="https://www.youtube-nocookie.com/embed/%s" %s allowfullscreen></iframe></div>',
 			$this->getRatio($attributes),
