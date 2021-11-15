@@ -27,10 +27,12 @@ class TwitterKeyword extends AbstractKeyword
 
 	public function processShortcode(
 		string $keyword,
-		string $value,
 		array $attributes,
 		string $match
 	) {
+		$value = $attributes['value'] ?: false;
+		unset($attributes['value']);
+
 		// Set dnt off by default
 		$parameters = [
 			'dnt' => true,

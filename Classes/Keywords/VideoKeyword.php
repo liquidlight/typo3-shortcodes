@@ -14,14 +14,13 @@ class VideoKeyword extends AbstractKeyword
 
 	public function processShortcode(
 		string $keyword,
-		string $value,
 		array $attributes,
 		string $match
 	) {
 		return sprintf(
 			'<div class="shortcode video" data-ratio="%s"><iframe src="%s" %s allowfullscreen></iframe></div>',
 			$this->getRatio($attributes),
-			$value,
+			$attributes['value'],
 			(
 				(isset($attributes['width']) ? 'width="' . $attributes['width'] . '" ' : '') .
 				(isset($attributes['height']) ? 'height="' . $attributes['height'] . '" ' : '')

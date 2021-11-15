@@ -30,7 +30,7 @@ class ProcessShortcodes implements MiddlewareInterface
 		$keywords = implode('|', array_keys($keywordConfigs));
 
 		// Find all the shortcodes in the page
-		preg_match_all('/\[(' . $keywords . ')(.*?)\]/', $body, $pageShortcodes);
+		preg_match_all('/\[((' . $keywords . ').*?)\]/', $body, $pageShortcodes);
 
 		if (
 			// No registered keywords?
@@ -41,8 +41,9 @@ class ProcessShortcodes implements MiddlewareInterface
 			// Return the unmodified response
 			return $response;
 		}
+
 		// Instantiate the classes we'll need for this page
-		foreach (array_unique($pageShortcodes[1]) as $keyword) {
+		foreach (array_unique($pageShortcodes[2]) as $keyword) {
 			$keywordConfigs[$keyword] = GeneralUtility::makeInstance(
 				$keywordConfigs[$keyword],
 				$response,
@@ -51,21 +52,19 @@ class ProcessShortcodes implements MiddlewareInterface
 		}
 
 		// Loop through the keywords and process
-		foreach ($pageShortcodes[1] as $index => $keyword) {
-			// e.g. [youtube: www.youtube.com/?v=123]
+		foreach ($pageShortcodes[2] as $index => $keyword) {
+			// e.g. youtube: www.youtube.com/?v=123
 			$match = $pageShortcodes[0][$index];
 
-			$data = $this->extractData($pageShortcodes[2][$index]);
-			debug($data);
+			$attributes = $this->extractData($keyword, $pageShortcodes[1][$index]);
 
 			// Remove any attributes we don't know about
-			$keywordConfigs[$keyword]->sanitiseAttributes($data['attributes']);
+			$keywordConfigs[$keyword]->removeAlienAttributes($attributes);
 
 			// Fire method and get built HTML
 			$result = $keywordConfigs[$keyword]->processShortcode(
 				$keyword,
-				$data['value'],
-				$data['attributes'],
+				$attributes,
 				$match
 			);
 
@@ -79,28 +78,17 @@ class ProcessShortcodes implements MiddlewareInterface
 		return new HtmlResponse($body);
 	}
 
-	private function extractData(string $input): array
+	private function extractData(string $keyword, string $data): array
 	{
 		$input = trim($input);
+		$data = $this->sanitiseData($data);
 
-		switch (substr($input, 0, 1)) {
-			case ':':
-				$properties = explode(',', ltrim($input, ':'));
-				$value = $this->sanitiseData(trim(array_shift($properties)));
-				break;
-			case '=':
-				$properties = explode(' ', ltrim($input, '='));
-				$value = $this->sanitiseData(trim(array_shift($properties)));
-				break;
-			default:
-				$properties = explode(' ', $input);
-				break;
-		}
+		$data = preg_replace('/' . $keyword . ' ?: ?/', $keyword . '=', $data);
+		$properties = explode(' ', $data);
 
-		$attributes = [];
 		foreach ($properties as $property) {
 			// key="value"
-			$attribute = explode('=', $property);
+			$attribute = explode('=', $property, 2);
 
 			// If it is not a ['key', 'value']
 			if (count($attribute) !== 2) {
@@ -108,13 +96,14 @@ class ProcessShortcodes implements MiddlewareInterface
 			}
 
 			// $attributes['key'] = 'value';
+			if(trim($attribute[0]) === $keyword) {
+				$attribute[0] = 'value';
+			}
+
 			$attributes[trim($attribute[0])] = $this->sanitiseData($attribute[1]);
 		}
 
-		return [
-			'value' => $value ?: '',
-			'attributes' => $attributes,
-		];
+		return $attributes;
 	}
 
 	protected function sanitiseData($value)

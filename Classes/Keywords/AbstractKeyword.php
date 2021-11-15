@@ -39,15 +39,14 @@ abstract class AbstractKeyword
 
 	abstract public function processShortcode(
 		string $keyword,
-		string $value,
 		array $attributes,
 		string $match
 	);
 
-	public function sanitiseAttributes(&$attributes): void
+	public function removeAlienAttributes(&$attributes): void
 	{
 		foreach ($attributes as $key => $value) {
-			if (!in_array($key, $this->attributes)) {
+			if (!in_array($key, $this->attributes) && $key !== 'value') {
 				unset($attributes[$key]);
 			}
 		}

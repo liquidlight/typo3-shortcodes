@@ -11,10 +11,11 @@ class LinkedInKeyword extends AbstractKeyword
 
 	public function processShortcode(
 		string $keyword,
-		string $value,
 		array $attributes,
 		string $match
 	) {
+		$value = $attributes['value'] ?: false;
+
 		if (strripos($value, 'linkedin.com') !== false) {
 			$url = explode('/', trim($value, '/'));
 			$value = end($url);

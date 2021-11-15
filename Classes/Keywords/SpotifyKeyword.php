@@ -12,12 +12,11 @@ class SpotifyKeyword extends AbstractKeyword
 
 	public function processShortcode(
 		string $keyword,
-		string $value,
 		array $attributes,
 		string $match
 	) {
 		// Remove any extra get params
-		$value = strtok($value, '?');
+		$value = strtok($attributes['value'] ?: false, '?');
 
 		// Make the URL an "embed" URL
 		if (strpos($value, 'open.spotify.com/embed') === false) {

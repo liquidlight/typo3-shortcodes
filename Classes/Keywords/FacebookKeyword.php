@@ -11,10 +11,11 @@ class FacebookKeyword extends AbstractKeyword
 
 	public function processShortcode(
 		string $keyword,
-		string $value,
 		array $attributes,
 		string $match
 	) {
+		$value = $attributes['value'] ?: false;
+
 		if (strpos($value, '/videos/') !== false || $keyword === 'facebookvideo') {
 			return sprintf(
 				'<div class="shortcode video facebook"><iframe src="https://www.facebook.com/plugins/video.php?href=%s scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen="true"></iframe></div>',

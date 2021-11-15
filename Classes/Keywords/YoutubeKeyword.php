@@ -6,12 +6,10 @@ class YoutubeKeyword extends VideoKeyword
 {
 	public function processShortcode(
 		string $keyword,
-		string $value,
 		array $attributes,
 		string $match
 	) {
-		$value = $attributes['code'] ?: $attributes['url'] ?: $value;
-
+		$value = $attributes['code'] ?: $attributes['url'] ?: $attributes['value'];
 		return sprintf(
 			'<div class="shortcode video youtube" data-ratio="%s"><iframe src="https://www.youtube-nocookie.com/embed/%s" %s allowfullscreen></iframe></div>',
 			$this->getRatio($attributes),

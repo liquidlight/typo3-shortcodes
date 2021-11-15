@@ -9,10 +9,9 @@ class InstagramKeyword extends AbstractKeyword
 
 	public function processShortcode(
 		string $keyword,
-		string $value,
 		array $attributes,
 		string $match
 	) {
-		return '<div class="shortcode photo instagram"><blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="' . $value . '" data-instgrm-version="14"></blockquote><script async src="//www.instagram.com/embed.js"></script></div>';
+		return '<div class="shortcode photo instagram"><blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="' . $attributes['value'] . '" data-instgrm-version="14"></blockquote><script async src="//www.instagram.com/embed.js"></script></div>';
 	}
 }

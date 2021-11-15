@@ -14,10 +14,12 @@ class IframeKeyword extends AbstractKeyword
 
 	public function processShortcode(
 		string $keyword,
-		string $value,
 		array $attributes,
 		string $match
 	) {
+		$value = $attributes['value'];
+		unset($attributes['value']);
+
 		$properties = [];
 		foreach ($attributes as $key => $value) {
 			$properties[] = sprintf('%s="%s"', $key, $value);

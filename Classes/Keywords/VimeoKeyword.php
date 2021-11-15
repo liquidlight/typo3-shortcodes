@@ -6,10 +6,11 @@ class VimeoKeyword extends VideoKeyword
 {
 	public function processShortcode(
 		string $keyword,
-		string $value,
 		array $attributes,
 		string $match
 	) {
+		$value = $attributes['code'] ?: $attributes['url'] ?: $attributes['value'];
+
 		preg_match('/vimeo\.com\/([0-9]{1,10})/', $value, $matches);
 
 		return sprintf(
