@@ -4,7 +4,7 @@ Wordpress style shortcodes for embedding external content in TYPO3.
 
 ## Usage
 
-Our of the box, the extension comes with plenty of shortcodes to get you started, including Youtube, Vimeo, Facebook, Twitter and plenty of others.
+Out of the box, the extension comes with plenty of shortcodes to get you started, including Youtube, Vimeo, Facebook, Twitter and plenty of others.
 
 To use the shortcodes, you can use a shorthand syntax or follow the Wordpress, HTML inspired method.
 
