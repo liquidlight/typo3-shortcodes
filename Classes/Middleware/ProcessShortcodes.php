@@ -27,10 +27,12 @@ class ProcessShortcodes implements MiddlewareInterface
 			->get('shortcodes', 'processShortcode')
 			;
 
-		$keywords = implode('|', array_keys($keywordConfigs));
-
-		// Find all the shortcodes in the page
-		preg_match_all('/\[((' . $keywords . ').*?)\]/', $body, $pageShortcodes);
+		// Find all the defined shortcodes in the page
+		preg_match_all(
+			'/\[((' . implode('|', array_keys($keywordConfigs)) . ').*?)\]/',
+			$body,
+			$pageShortcodes
+		);
 
 		if (
 			// No registered keywords?
@@ -78,6 +80,17 @@ class ProcessShortcodes implements MiddlewareInterface
 		return new HtmlResponse($body);
 	}
 
+	/**
+	 * extractData
+	 *
+	 * Convert a shortcode from a string into a key value array. If the keyword
+	 * and a `:` or `=` is used (e.g. `[youtube=123]` )then 123 will returned as
+	 * `value => 123`
+	 *
+	 * @param  string $keyword The keyword (e.g. youtube)
+	 * @param  string $data The whole of the string
+	 * @return array
+	 */
 	private function extractData(string $keyword, string $data): array
 	{
 		$input = trim($input);
@@ -106,7 +119,15 @@ class ProcessShortcodes implements MiddlewareInterface
 		return $attributes;
 	}
 
-	protected function sanitiseData($value)
+	/**
+	 * sanitiseData
+	 *
+	 * Remove all the unwanted gumpf that the WYSIWYG might add
+	 *
+	 * @param  string $value
+	 * @return void
+	 */
+	protected function sanitiseData(string $value): string
 	{
 		// Strip HTML Tags
 		$value = strip_tags($value);

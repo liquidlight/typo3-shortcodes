@@ -4,7 +4,7 @@ Wordpress style shortcodes for embedding external content in TYPO3.
 
 ## Usage
 
-Out of the box, the extension comes with plenty of shortcodes to get you started, including Youtube, Vimeo, Facebook, Twitter and plenty of others.
+Our of the box, the extension comes with plenty of shortcodes to get you started, including Youtube, Vimeo, Facebook, Twitter and plenty of others.
 
 To use the shortcodes, you can use a shorthand syntax or follow the Wordpress, HTML inspired method.
 
@@ -30,9 +30,26 @@ More details below as to the exact usage for each tag, but as an example, the Yo
 [youtube url="https://www.youtube.com/watch?v=JrFFN9lag2w" ]
 ```
 
-### Existing Shortcodes
+## Creating your own keyword
 
-#### Facebook
+In the land of shortcodes, keyword is the "service" used to trigger the shortcode (e.g. `youtube` in the examples above).
+
+Registering your own keyword requires a new class which extends `LiquidLight\Shortcodes\Keywords\AbstractKeyword`.
+
+An example of how to extend and use can be found in the Classes/Keywords folder - anything but the `AbstractKeyword` class can be copied and used.
+
+Once created, you can add it via the `ext_localconf.php` where `new` is the name of the keyword.
+
+```php
+$GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['shortcodes']['processShortcode']['new'] =
+		\Vendor\Ext\Keywords\NewKeyword::class;
+```
+
+Using this method allows you to overwrite existing keywords if you wish to alter their output. The only requirement is that you return a string.
+
+## Existing Shortcodes
+
+### Facebook
 
 `[facebook]`
 
@@ -54,7 +71,7 @@ Copy the URL of a facebook post or video
 [facebook=LINK width="500"]
 ```
 
-#### Iframe
+### Iframe
 
 `[iframe]`
 
@@ -74,7 +91,7 @@ Allows a generic iframe to be rendered with the passed in URL
 - frameBorder
 
 
-#### Instagram
+### Instagram
 
 `[instagram]`
 
@@ -84,7 +101,7 @@ Embeds an Instagram post
 [instagram=https://www.instagram.com/p/CWI-FeDs-us/ ]
 ```
 
-#### LinkedIn
+### LinkedIn
 
 `[linkedin]`
 
@@ -107,7 +124,7 @@ For example:
 [linkedin=LINK width="100%" height="600"]
 ```
 
-#### Spotify
+### Spotify
 
 `[spotify]`
 
@@ -130,7 +147,7 @@ Click the 3 dots -> Share -> Copy Link
 [spotify=LINK height="380" theme="1"]
 ```
 
-#### Twitter
+### Twitter
 
 `[twitter | tweet]`
 
@@ -148,7 +165,7 @@ Any properties are passed through to the [oembed-api](https://developer.twitter.
 [tweet=https://twitter.com/Interior/status/463440424141459456 theme="light"]
 ```
 
-#### Video
+### Video
 
 `[video]`
 
@@ -166,7 +183,7 @@ The video element outputs an `<iframe>` with the src of that passed in. It allow
 - height
 - ratio - video ratio in a colon format (e.g. `ratio="4:3"`) - defaults to `16:9` - rendered as a `data-ratio` attribute for styling
 
-#### Vimeo
+### Vimeo
 
 `[vimeo]`
 
@@ -178,7 +195,7 @@ Renders a Vimeo iframe embed. Can take a full URL or code.
 
 See [Video](#video) for properties and use.
 
-#### Youtube
+### Youtube
 
 `[youtube]`
 
