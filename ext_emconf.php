@@ -2,7 +2,7 @@
 
 $EM_CONF[$_EXTKEY] = [
 	'title' => 'Shortcodes',
-	'description' => 'Wordpress-style shortcodes for page content',
+	'description' => 'Wordpress-style shortcodes for TYPO3',
 	'category' => 'plugin',
 	'author' => 'Mike Street',
 	'author_email' => 'mike@liquidlight.co.uk',
