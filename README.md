@@ -89,7 +89,7 @@ All the properties are of that listed  [in the documentation](https://developers
 
 The only one that is different is `search` can be used instead of `q`
 
-### Setup
+#### Setup
 
 To use the `googlemaps` shortcode, an API key must be set.
 
