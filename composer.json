@@ -1,5 +1,5 @@
 {
-    "name": "liquidlight/shortcodes",
+    "name": "liquidlight/typo3-shortcodes",
     "description": "Wordpress-style shortcodes for TYPO3",
     "type": "typo3-cms-extension",
     "license": "GPL-2.0+",

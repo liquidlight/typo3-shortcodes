@@ -2,6 +2,12 @@
 
 Wordpress style shortcodes for embedding external content in TYPO3.
 
+## Installation
+
+```
+composer req liquidlight/typo3-shortcodes
+```
+
 ## Usage
 
 Our of the box, the extension comes with plenty of shortcodes to get you started, including YouTube, Vimeo, Facebook, Twitter and plenty of others.
