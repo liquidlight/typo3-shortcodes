@@ -35,7 +35,6 @@
     },
     "scripts": {
         "prepare-release": [
-            "@extension-create-libs",
             "rm -rf .github",
             "rm .gitignore",
             "rm .project.php_cs"
