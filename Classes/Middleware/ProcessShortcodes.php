@@ -96,6 +96,9 @@ class ProcessShortcodes implements MiddlewareInterface
 		// Replace keyword:value with keyword=value
 		$data = preg_replace('/' . $keyword . ' ?: ?/', $keyword . '=', $data);
 
+		// Strip tags before we even begin processing
+		$data = strip_tags($data);
+
 		// Split on spaces that are not in quotes
 		$properties = preg_split('/\s(?=([^"]*"[^"]*")*[^"]*$)/', $data);
 
