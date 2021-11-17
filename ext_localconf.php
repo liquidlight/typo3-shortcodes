@@ -11,7 +11,7 @@ call_user_func(function () {
 
 	$shortcodesExtConf['config']['api']['googlemaps'] = $_ENV['GOOGLE_MAP_API'] ?: false;
 
-	$shortcodesExtConf = array_merge([
+	$shortcodesExtConf['processShortcode'] = array_merge([
 		'facebook' => \LiquidLight\Shortcodes\Keywords\FacebookKeyword::class,
 		'facebookvideo' => \LiquidLight\Shortcodes\Keywords\FacebookKeyword::class,
 		'googlemaps' => \LiquidLight\Shortcodes\Keywords\GoogleMapsKeyword::class,
@@ -25,5 +25,5 @@ call_user_func(function () {
 		'video' => \LiquidLight\Shortcodes\Keywords\VideoKeyword::class,
 		'vimeo' => \LiquidLight\Shortcodes\Keywords\VimeoKeyword::class,
 		'youtube' => \LiquidLight\Shortcodes\Keywords\YoutubeKeyword::class,
-	], $shortcodesExtConf);
+	], $shortcodesExtConf['processShortcode']);
 });
