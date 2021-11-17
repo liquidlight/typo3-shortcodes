@@ -97,7 +97,7 @@ class ProcessShortcodes implements MiddlewareInterface
 		$data = preg_replace('/' . $keyword . ' ?: ?/', $keyword . '=', $data);
 
 		// Strip tags before we even begin processing
-		$data = strip_tags($data);
+		$data = $this->sanitiseData($data);
 
 		// Split on spaces that are not in quotes
 		$properties = preg_split('/\s(?=([^"]*"[^"]*")*[^"]*$)/', $data);
@@ -115,7 +115,8 @@ class ProcessShortcodes implements MiddlewareInterface
 			if (trim($attribute[0]) === $keyword) {
 				$attribute[0] = 'value';
 			}
-			$attributes[trim($attribute[0])] = $this->sanitiseData($attribute[1]);
+			// Strip spces and quotes (the addition of quotes is the only thing different to standard)
+			$attributes[trim($attribute[0])] = trim($this->sanitiseData($attribute[1]), " \n\r\t\v\0\"\'");
 		}
 
 		return $attributes;
@@ -137,8 +138,6 @@ class ProcessShortcodes implements MiddlewareInterface
 		$value = html_entity_decode($value);
 		// Replace space-like characters with a space
 		$value = preg_replace('/\xc2\xa0/', ' ', $value);
-		// Strip spces and quotes
-		$value = trim($value, " \n\r\t\v\0\"\'");
 
 		return $value;
 	}
