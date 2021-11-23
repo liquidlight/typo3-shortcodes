@@ -38,7 +38,9 @@ class ProcessShortcodes implements MiddlewareInterface
 			// No registered keywords?
 			!count($keywordConfigs) ||
 			// No found shortcodes?
-			!count($pageShortcodes)
+			!count($pageShortcodes) ||
+			// Make sure we are on a HTML page
+			!$this->isHtml($response)
 		) {
 			// Return the unmodified response
 			return $response;
@@ -140,5 +142,30 @@ class ProcessShortcodes implements MiddlewareInterface
 		$value = preg_replace('/\xc2\xa0/', ' ', $value);
 
 		return $value;
+	}
+
+	/**
+	 * isHtml
+	 *
+	 * Determine if the current page is HTML
+	 *
+	 * @param  ResponseInterface $response
+	 * @return bool
+	 */
+	protected function isHtml(ResponseInterface $response): bool
+	{
+		$headers = $response->getHeaders();
+
+		// Do we have a content type header?
+		if (!isset($headers['Content-Type'])) {
+			return false;
+		}
+
+		// Does that content type header contain text/html?
+		if (strpos(strtolower($headers['Content-Type'][0]), 'text/html') > -1) {
+			return true;
+		}
+
+		return false;
 	}
 }
