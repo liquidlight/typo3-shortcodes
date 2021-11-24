@@ -29,7 +29,7 @@ class ProcessShortcodes implements MiddlewareInterface
 
 		// Find all the defined shortcodes in the page
 		preg_match_all(
-			'/\[((' . implode('|', array_keys($keywordConfigs)) . ').*?)\]/',
+			'/\[ ?((' . implode('|', array_keys($keywordConfigs)) . ').*?)\]/',
 			$body,
 			$pageShortcodes
 		);
@@ -38,13 +38,12 @@ class ProcessShortcodes implements MiddlewareInterface
 			// No registered keywords?
 			!count($keywordConfigs) ||
 			// No found shortcodes?
-			!count($pageShortcodes) ||
-			// Make sure we are on a HTML page
-			!$this->isHtml($response)
+			!count($pageShortcodes)
 		) {
 			// Return the unmodified response
 			return $response;
 		}
+
 
 		// Instantiate the classes we'll need for this page
 		foreach (array_unique($pageShortcodes[2]) as $keyword) {
@@ -61,6 +60,7 @@ class ProcessShortcodes implements MiddlewareInterface
 			$match = $pageShortcodes[0][$index];
 
 			$attributes = $this->extractData($keyword, $pageShortcodes[1][$index]);
+			debug($attributes);
 
 			// Remove any attributes we don't know about
 			$keywordConfigs[$keyword]->removeAlienAttributes($attributes);
@@ -95,8 +95,14 @@ class ProcessShortcodes implements MiddlewareInterface
 	 */
 	private function extractData(string $keyword, string $data): array
 	{
+		// Get rid of non-brekaing spaces in the RTE
+		$data = preg_replace('/&nbsp;/', ' ', $data);
+
 		// Replace keyword:value with keyword=value
 		$data = preg_replace('/' . $keyword . ' ?: ?/', $keyword . '=', $data);
+
+		// Replace keyword = value with keyword=value
+		$data = preg_replace('/' . $keyword . ' ?= ?/', $keyword . '=', $data);
 
 		// Strip tags before we even begin processing
 		$data = $this->sanitiseData($data);
@@ -142,30 +148,5 @@ class ProcessShortcodes implements MiddlewareInterface
 		$value = preg_replace('/\xc2\xa0/', ' ', $value);
 
 		return $value;
-	}
-
-	/**
-	 * isHtml
-	 *
-	 * Determine if the current page is HTML
-	 *
-	 * @param  ResponseInterface $response
-	 * @return bool
-	 */
-	protected function isHtml(ResponseInterface $response): bool
-	{
-		$headers = $response->getHeaders();
-
-		// Do we have a content type header?
-		if (!isset($headers['Content-Type'])) {
-			return false;
-		}
-
-		// Does that content type header contain text/html?
-		if (strpos(strtolower($headers['Content-Type'][0]), 'text/html') > -1) {
-			return true;
-		}
-
-		return false;
 	}
 }
