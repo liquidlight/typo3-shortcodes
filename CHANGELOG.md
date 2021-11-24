@@ -1,3 +1,16 @@
+# 1.2.0
+> 24th November 2021
+
+## Bug
+
+- Fixed issue where it was returning a JSON response as text by ignoring anything that isn't HTML
+- Fixed whitespace issue with before keyword and around `=` (resolves #5)
+
+## Assets
+
+- Add extension icon
+
+
 # 1.1.1
 > 17th November 2021
 
