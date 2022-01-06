@@ -1,3 +1,11 @@
+# 1.2.1
+> 6th January 2022
+
+## Bug
+
+- Ensure page is HTML before proceeding
+- Remove `debug` from middleware
+
 # 1.2.0
 > 24th November 2021
 
