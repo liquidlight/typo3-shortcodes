@@ -62,7 +62,6 @@ class ProcessShortcodes implements MiddlewareInterface
 			$match = $pageShortcodes[0][$index];
 
 			$attributes = $this->extractData($keyword, $pageShortcodes[1][$index]);
-			debug($attributes);
 
 			// Remove any attributes we don't know about
 			$keywordConfigs[$keyword]->removeAlienAttributes($attributes);
