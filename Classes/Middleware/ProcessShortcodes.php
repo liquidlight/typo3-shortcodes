@@ -74,7 +74,7 @@ class ProcessShortcodes implements MiddlewareInterface
 
 			// If we have a link, replace the value with the href
 			preg_match('/<a.*?href="([^"].*?)".*?<\/a>/', $pageShortcodes[1][$index], $linkHref);
-			if(count($linkHref)) {
+			if (count($linkHref)) {
 				$pageShortcodes[1][$index] = str_replace($linkHref[0], $linkHref[1], $pageShortcodes[1][$index]);
 			}
 
