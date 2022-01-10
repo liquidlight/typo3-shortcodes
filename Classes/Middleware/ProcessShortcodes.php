@@ -40,7 +40,7 @@ class ProcessShortcodes implements MiddlewareInterface
 
 		// Find all the defined shortcodes in the page followed by a `:`, `=` or space
 		preg_match_all(
-			'/\[ ?((' . implode('|', array_keys($keywordConfigs)) . ')[:|=|\s].*?)\]/',
+			'/\[ ?((' . implode('|', array_keys($keywordConfigs)) . ') ?[:|=] ?(.*?))\]/',
 			$body,
 			$pageShortcodes
 		);
@@ -57,7 +57,6 @@ class ProcessShortcodes implements MiddlewareInterface
 			return $response;
 		}
 
-
 		// Instantiate the classes we'll need for this page
 		foreach (array_unique($pageShortcodes[2]) as $keyword) {
 			$keywordConfigs[$keyword] = GeneralUtility::makeInstance(
@@ -67,10 +66,17 @@ class ProcessShortcodes implements MiddlewareInterface
 			);
 		}
 
+
 		// Loop through the keywords and process
 		foreach ($pageShortcodes[2] as $index => $keyword) {
 			// e.g. youtube: www.youtube.com/?v=123
 			$match = $pageShortcodes[0][$index];
+
+			// If we have a link, replace the value with the href
+			preg_match('/<a.*?href="([^"].*?)".*?<\/a>/', $pageShortcodes[1][$index], $linkHref);
+			if(count($linkHref)) {
+				$pageShortcodes[1][$index] = str_replace($linkHref[0], $linkHref[1], $pageShortcodes[1][$index]);
+			}
 
 			$attributes = $this->extractData($keyword, $pageShortcodes[1][$index]);
 
