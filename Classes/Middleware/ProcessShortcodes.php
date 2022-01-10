@@ -27,9 +27,20 @@ class ProcessShortcodes implements MiddlewareInterface
 			->get('shortcodes', 'processShortcode')
 			;
 
-		// Find all the defined shortcodes in the page
+		/**
+		 * Find all known shortcodes located in HTML attributes and remove them
+		 *
+		 * This prevents Shortcode HTML being renderd where it shouldn't be, e.g. in the head
+		 */
+		$body = preg_replace(
+			'/(="[^"]*?)(\[ ?(?>' . implode('|', array_keys($keywordConfigs)) . ')[:|=|\s].*?\])([^"]*?")/',
+			"$1$3",
+			$body
+		);
+
+		// Find all the defined shortcodes in the page followed by a `:`, `=` or space
 		preg_match_all(
-			'/\[ ?((' . implode('|', array_keys($keywordConfigs)) . ').*?)\]/',
+			'/\[ ?((' . implode('|', array_keys($keywordConfigs)) . ')[:|=|\s].*?)\]/',
 			$body,
 			$pageShortcodes
 		);
