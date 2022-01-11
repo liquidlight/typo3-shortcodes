@@ -1,3 +1,11 @@
+# 1.2.2
+> 11th January 2022
+
+## Bug
+
+- Remove any shortcodes that appear in HTML attributes, such as meta descriptions
+- Use link from WYSIWYG generated link instead of text, if there is on
+
 # 1.2.1
 > 6th January 2022
 
