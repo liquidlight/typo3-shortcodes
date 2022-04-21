@@ -107,6 +107,12 @@ However it can be set in `ext_localconf` however you see fit (please don't commi
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['shortcodes']['config']['api']['googlemaps'] = '123';
 ```
 
+**If you restrict the API key type**, ensure you have the following enabled
+
+- Maps Embed API
+- Maps JavaScript API
+- Maps Static API
+
 ### Iframe
 
 `[iframe]`
