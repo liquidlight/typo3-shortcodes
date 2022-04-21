@@ -40,7 +40,7 @@ class ProcessShortcodes implements MiddlewareInterface
 
 		// Find all the defined shortcodes in the page followed by a `:`, `=` or space
 		preg_match_all(
-			'/\[ ?((' . implode('|', array_keys($keywordConfigs)) . ') ?[:|=] ?(.*?))\]/',
+			'/\[ ?((' . implode('|', array_keys($keywordConfigs)) . ') ?[:|= ] ?(.*?))\]/',
 			$body,
 			$pageShortcodes
 		);
