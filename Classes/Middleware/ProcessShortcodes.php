@@ -33,14 +33,14 @@ class ProcessShortcodes implements MiddlewareInterface
 		 * This prevents Shortcode HTML being renderd where it shouldn't be, e.g. in the head
 		 */
 		$body = preg_replace(
-			'/(="[^"]*?)(\[ ?(?>' . implode('|', array_keys($keywordConfigs)) . ')[:|=|\s].*?\])([^"]*?")/',
+			'/(="[^"]*?)(\[\s?(?>' . implode('|', array_keys($keywordConfigs)) . ')[:|=|\s].*?\])([^"]*?")/',
 			"$1$3",
 			$body
 		);
 
 		// Find all the defined shortcodes in the page followed by a `:`, `=` or space
 		preg_match_all(
-			'/\[ ?((' . implode('|', array_keys($keywordConfigs)) . ') ?[:|= ] ?(.*?))\]/',
+			'/\[\s?((' . implode('|', array_keys($keywordConfigs)) . ')\s?[:|= ]\s?(.*?))\]/',
 			$body,
 			$pageShortcodes
 		);
@@ -117,10 +117,10 @@ class ProcessShortcodes implements MiddlewareInterface
 		$data = preg_replace('/&nbsp;/', ' ', $data);
 
 		// Replace keyword:value with keyword=value
-		$data = preg_replace('/' . $keyword . ' ?: ?/', $keyword . '=', $data);
+		$data = preg_replace('/' . $keyword . '\s?:\s?/', $keyword . '=', $data);
 
 		// Replace keyword = value with keyword=value
-		$data = preg_replace('/' . $keyword . ' ?= ?/', $keyword . '=', $data);
+		$data = preg_replace('/' . $keyword . '\s?=\s?/', $keyword . '=', $data);
 
 		// Strip tags before we even begin processing
 		$data = $this->sanitiseData($data);
