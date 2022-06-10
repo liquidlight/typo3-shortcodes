@@ -2,7 +2,6 @@
 
 namespace LiquidLight\Shortcodes\Keywords;
 
-use TYPO3\CMS\Core\Http\Response;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 
@@ -38,9 +37,9 @@ class GoogleMapsKeyword extends AbstractKeyword
 
 	protected $key;
 
-	public function __construct(Response $response, string $body)
+	public function __construct(string $content)
 	{
-		parent::__construct($response, $body);
+		parent::__construct($content);
 		$config = GeneralUtility::makeInstance(ExtensionConfiguration::class)
 			->get('shortcodes', 'config')
 			;

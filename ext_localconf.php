@@ -26,4 +26,13 @@ call_user_func(function () {
 		'vimeo' => \LiquidLight\Shortcodes\Keywords\VimeoKeyword::class,
 		'youtube' => \LiquidLight\Shortcodes\Keywords\YoutubeKeyword::class,
 	], $shortcodesExtConf['processShortcode']);
+
+	\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
+		'shortcodes',
+		'setup',
+		"
+		lib.parseFunc_RTE.nonTypoTagStdWrap.postUserFunc = LiquidLight\Shortcodes\Processor\ShortcodeProcessor->process
+		lib.parseFunc_RTE.htmlSanitize = 0
+		"
+	);
 });

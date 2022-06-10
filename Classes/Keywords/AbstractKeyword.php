@@ -2,25 +2,16 @@
 
 namespace LiquidLight\Shortcodes\Keywords;
 
-use TYPO3\CMS\Core\Http\Response;
-
 abstract class AbstractKeyword
 {
 	/**
-	 * response
-	 *
-	 * The middleware reposnse object
-	 */
-	protected $response;
-
-	/**
-	 * body
+	 * content
 	 *
 	 * The page response as a string
 	 *
 	 * @var string
 	 */
-	protected $body;
+	protected $content;
 
 	/**
 	 * attributes
@@ -31,10 +22,9 @@ abstract class AbstractKeyword
 	 */
 	protected $attributes = [];
 
-	public function __construct(Response $response, string $body)
+	public function __construct(string $content)
 	{
-		$this->response = $response;
-		$this->body = $body;
+		$this->content = $content;
 	}
 
 	abstract public function processShortcode(

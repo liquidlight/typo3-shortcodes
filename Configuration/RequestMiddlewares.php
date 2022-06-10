@@ -3,7 +3,7 @@
 return [
 	'frontend' => [
 		'liquidlight/shortcodes/process-shortcodes' => [
-			'target' => LiquidLight\Shortcodes\Middleware\ProcessShortcodes::class,
+			'target' => LiquidLight\Shortcodes\Middleware\CleanupShortcodes::class,
 			'before' => [
 				'typo3/cms-frontend/output-compression',
 			],

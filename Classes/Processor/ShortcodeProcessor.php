@@ -1,68 +1,48 @@
 <?php
 
-namespace LiquidLight\Shortcodes\Middleware;
+namespace LiquidLight\Shortcodes\Processor;
 
-use Psr\Http\Server\MiddlewareInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\RequestHandlerInterface;
-use Psr\Http\Message\ResponseInterface;
-use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 
-class ProcessShortcodes implements MiddlewareInterface
+class ShortcodeProcessor
 {
-	public function process(
-		ServerRequestInterface $request,
-		RequestHandlerInterface $handler
-	): ResponseInterface {
-		// Create a response
-		$response = $handler->handle($request);
+	public $keywordConfig = [];
 
-		// Get the page as a string
-		$body = $response->getBody()->__toString();
-
+	public function __construct()
+	{
 		// Get our defined shortcodes
-		$keywordConfigs = GeneralUtility::makeInstance(ExtensionConfiguration::class)
+		$this->keywordConfigs = GeneralUtility::makeInstance(ExtensionConfiguration::class)
 			->get('shortcodes', 'processShortcode')
-			;
+		;
+	}
 
-		/**
-		 * Find all known shortcodes located in HTML attributes and remove them
-		 *
-		 * This prevents Shortcode HTML being renderd where it shouldn't be, e.g. in the head
-		 */
-		$body = preg_replace(
-			'/(="[^"]*?)(\[ ?(?>' . implode('|', array_keys($keywordConfigs)) . ')[:|=|\s].*?\])([^"]*?")/',
-			"$1$3",
-			$body
-		);
+	public function process(string $input, array $conf): string
+	{
+		$content = $input;
 
 		// Find all the defined shortcodes in the page followed by a `:`, `=` or space
 		preg_match_all(
-			'/\[ ?((' . implode('|', array_keys($keywordConfigs)) . ') ?[:|= ] ?(.*?))\]/',
-			$body,
+			'/\[ ?((' . implode('|', array_keys($this->keywordConfigs)) . ') ?[:|= ] ?(.*?))\]/',
+			$content,
 			$pageShortcodes
 		);
 
 		if (
 			// No registered keywords?
-			!count($keywordConfigs) ||
+			!count($this->keywordConfigs) ||
 			// No found shortcodes?
-			!count($pageShortcodes) ||
-			// Don't process if we're not HTML
-			!$this->isHtml($response)
+			!count($pageShortcodes)
 		) {
 			// Return the unmodified response
-			return $response;
+			return $input;
 		}
 
 		// Instantiate the classes we'll need for this page
 		foreach (array_unique($pageShortcodes[2]) as $keyword) {
-			$keywordConfigs[$keyword] = GeneralUtility::makeInstance(
-				$keywordConfigs[$keyword],
-				$response,
-				$body
+			$this->keywordConfigs[$keyword] = GeneralUtility::makeInstance(
+				$this->keywordConfigs[$keyword],
+				$input
 			);
 		}
 
@@ -81,10 +61,10 @@ class ProcessShortcodes implements MiddlewareInterface
 			$attributes = $this->extractData($keyword, $pageShortcodes[1][$index]);
 
 			// Remove any attributes we don't know about
-			$keywordConfigs[$keyword]->removeAlienAttributes($attributes);
+			$this->keywordConfigs[$keyword]->removeAlienAttributes($attributes);
 
 			// Fire method and get built HTML
-			$result = $keywordConfigs[$keyword]->processShortcode(
+			$result = $this->keywordConfigs[$keyword]->processShortcode(
 				$keyword,
 				$attributes,
 				$match
@@ -92,12 +72,12 @@ class ProcessShortcodes implements MiddlewareInterface
 
 			// Did our config return something? Find and replace the origin match
 			if ($result) {
-				$body = str_replace($match, $result, $body);
+				$content = str_replace($match, $result, $input);
 			}
 		}
 
 		// Return the modified HTML
-		return new HtmlResponse($body);
+		return $content;
 	}
 
 	/**
@@ -141,8 +121,8 @@ class ProcessShortcodes implements MiddlewareInterface
 			if (trim($attribute[0]) === $keyword) {
 				$attribute[0] = 'value';
 			}
-			// Strip spces and quotes (the addition of quotes is the only thing different to standard)
-			$attributes[trim($attribute[0])] = trim($this->sanitiseData($attribute[1]), " \n\r\t\v\0\"\'");
+			// Strip spaces and quotes (the addition of quotes is the only thing different to standard)
+			$attributes[trim($attribute[0])] = trim($this->sanitiseData((string)$attribute[1]), " \n\r\t\v\0\"\'");
 		}
 
 		return $attributes;
@@ -166,30 +146,5 @@ class ProcessShortcodes implements MiddlewareInterface
 		$value = preg_replace('/\xc2\xa0/', ' ', $value);
 
 		return $value;
-	}
-
-	/**
-	 * isHtml
-	 *
-	 * Determine if the current page is HTML
-	 *
-	 * @param  ResponseInterface $response
-	 * @return bool
-	 */
-	protected function isHtml(ResponseInterface $response): bool
-	{
-		$headers = $response->getHeaders();
-
-		// Do we have a content type header?
-		if (!isset($headers['Content-Type'])) {
-			return false;
-		}
-
-		// Does that content type header contain text/html?
-		if (strpos(strtolower($headers['Content-Type'][0]), 'text/html') > -1) {
-			return true;
-		}
-
-		return false;
 	}
 }
