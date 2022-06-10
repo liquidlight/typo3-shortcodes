@@ -38,6 +38,15 @@ class ProcessShortcodes implements MiddlewareInterface
 			$body
 		);
 
+		/**
+		 * Remove all known shortcodes from between key/valued quotes - e.g. in JSON Schema
+		 */
+		$body = preg_replace(
+			'/("[^"]*"\s*:\s*"[^"]*)(\[\s?(?>' . implode('|', array_keys($keywordConfigs)) . ')[:|=|\s].*?\])([^"]*")/',
+			"$1$3",
+			$body
+		);
+
 		// Find all the defined shortcodes in the page followed by a `:`, `=` or space
 		preg_match_all(
 			'/\[\s?((' . implode('|', array_keys($keywordConfigs)) . ')\s?[:|= ]\s?(.*?))\]/',
