@@ -1,3 +1,16 @@
+# 1.3.0
+
+**29th June 2022**
+
+#### Backend
+
+- Change spaces in regex to `\s` to avoid ambiguity
+
+#### Bug
+
+- Resolve issue with shortcodes where it was ignoring spaces
+- Remove shortcodes that appear within a key/valued JSON-style quote
+
 # 1.2.2
 
 **11th January 2022**
