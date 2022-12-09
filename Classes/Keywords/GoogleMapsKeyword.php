@@ -43,7 +43,7 @@ class GoogleMapsKeyword extends AbstractKeyword
 		parent::__construct($response, $body);
 		$config = GeneralUtility::makeInstance(ExtensionConfiguration::class)
 			->get('shortcodes', 'config')
-			;
+		;
 
 		$this->key = $config['api']['googlemaps'] ?? false;
 	}

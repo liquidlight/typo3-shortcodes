@@ -25,7 +25,7 @@ class ProcessShortcodes implements MiddlewareInterface
 		// Get our defined shortcodes
 		$keywordConfigs = GeneralUtility::makeInstance(ExtensionConfiguration::class)
 			->get('shortcodes', 'processShortcode')
-			;
+		;
 
 		/**
 		 * Find all known shortcodes located in HTML attributes and remove them
