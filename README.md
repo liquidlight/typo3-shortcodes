@@ -48,7 +48,7 @@ Once created, you can add it via the `ext_localconf.php` where `new` is the name
 
 ```php
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['shortcodes']['processShortcode']['new'] =
-		\Vendor\Ext\Keywords\NewKeyword::class;
+	\Vendor\Ext\Keywords\NewKeyword::class;
 ```
 
 Using this method allows you to overwrite existing keywords if you wish to alter their output. The only requirement is that you return a string.
@@ -91,9 +91,12 @@ Shows a place, satellite, directions or streetview of a place.
 
 **Properties:**
 
-All the properties are of that listed  [in the documentation](https://developers.google.com/maps/documentation/embed/embedding-map).
+All the properties are of that listed [in the documentation](https://developers.google.com/maps/documentation/embed/embedding-map).
 
-The only one that is different is `search` can be used instead of `q`
+The only differences are:
+
+- `search` can be used instead of `q`
+- The addition of `loading` - defaults to `lazy` but can be set to `eager`
 
 #### Setup
 
@@ -159,6 +162,7 @@ For example:
 
 - height
 - width
+- loading - defaults to `lazy` but can be set to `eager`
 
 **Defaults:**
 
@@ -203,6 +207,7 @@ Click the 3 dots -> Share -> Copy Link
 
 - height - can be 80 or 380
 - theme - can be 1 or 0 (disables the coloured background)
+- loading - defaults to `lazy` but can be set to `eager`
 
 **Defaults:**
 
@@ -245,6 +250,7 @@ The video element outputs an `<iframe>` with the src of that passed in. It allow
 - width
 - height
 - ratio - video ratio in a colon format (e.g. `ratio="4:3"`) - defaults to `16:9` - rendered as a `data-ratio` attribute for styling
+- loading - defaults to `lazy` but can be set to `eager`
 
 ### Vimeo
 

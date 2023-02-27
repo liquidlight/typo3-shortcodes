@@ -16,7 +16,8 @@ class YoutubeKeyword extends VideoKeyword
 			($this->getYoutubeCode($value) ?: $value),
 			(
 				(isset($attributes['width']) ? 'width="' . $attributes['width'] . '" ' : '') .
-				(isset($attributes['height']) ? 'height="' . $attributes['height'] . '" ' : '')
+				(isset($attributes['height']) ? 'height="' . $attributes['height'] . '" ' : '') .
+				(isset($attributes['loading']) ? 'loading="' . $attributes['loading'] . '" ' : 'loading="lazy" ')
 			)
 		);
 	}

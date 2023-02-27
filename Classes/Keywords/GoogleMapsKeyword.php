@@ -34,6 +34,7 @@ class GoogleMapsKeyword extends AbstractKeyword
 		'fov',
 		'width',
 		'height',
+		'loading',
 	];
 
 	protected $key;
@@ -78,10 +79,11 @@ class GoogleMapsKeyword extends AbstractKeyword
 		$url = sprintf('https://www.google.com/maps/embed/v1/%s?', $map_mode);
 
 		return sprintf(
-			'<div class="shortcodes map googlemap"><iframe src="%s" width="%s" height="%s" frameborder="0" allowfullscreen></iframe></div>',
+			'<div class="shortcodes map googlemap"><iframe src="%s" width="%s" height="%s" loading="%s" frameborder="0" allowfullscreen></iframe></div>',
 			$url . http_build_query($parameters),
 			($attributes['width'] ?? '100%'),
-			($attributes['height'] ?? 450)
+			($attributes['height'] ?? 450),
+			($attributes['loading'] ?? 'lazy'),
 		);
 	}
 }

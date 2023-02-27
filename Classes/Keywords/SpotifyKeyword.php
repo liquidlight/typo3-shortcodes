@@ -8,6 +8,7 @@ class SpotifyKeyword extends AbstractKeyword
 		'theme', // Can be 0 or 1
 		'height', // Should be 380 or 0
 		'width',
+		'loading',
 	];
 
 	public function processShortcode(
@@ -29,11 +30,12 @@ class SpotifyKeyword extends AbstractKeyword
 		}
 
 		return sprintf(
-			'<div class="shortcode audio spotify"><iframe src="%s?%s" width="%s" height="%s" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe></div>',
+			'<div class="shortcode audio spotify"><iframe src="%s?%s" width="%s" height="%s" loading="%s" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe></div>',
 			$value,
 			(isset($attributes['theme']) && !(bool)$attributes['theme'] ? 'theme=0' : ''),
 			($attributes['width'] ?? '100%'),
-			($attributes['height'] ?? 380)
+			($attributes['height'] ?? 380),
+			($attributes['loading'] ?? 'lazy'),
 		);
 	}
 }

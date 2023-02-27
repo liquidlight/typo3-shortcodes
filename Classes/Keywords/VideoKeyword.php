@@ -10,6 +10,7 @@ class VideoKeyword extends AbstractKeyword
 		'width',
 		'height',
 		'ratio',
+		'loading',
 	];
 
 	public function processShortcode(
@@ -23,7 +24,8 @@ class VideoKeyword extends AbstractKeyword
 			$attributes['value'],
 			(
 				(isset($attributes['width']) ? 'width="' . $attributes['width'] . '" ' : '') .
-				(isset($attributes['height']) ? 'height="' . $attributes['height'] . '" ' : '')
+				(isset($attributes['height']) ? 'height="' . $attributes['height'] . '" ' : '') .
+				(isset($attributes['loading']) ? 'loading="' . $attributes['loading'] . '" ' : 'loading="lazy" ')
 			)
 		);
 	}

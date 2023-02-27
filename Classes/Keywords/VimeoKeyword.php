@@ -19,7 +19,8 @@ class VimeoKeyword extends VideoKeyword
 			(count($matches) ? trim($matches[1]) : $value),
 			(
 				(isset($attributes['width']) ? 'width="' . $attributes['width'] . '" ' : '') .
-				(isset($attributes['height']) ? 'height="' . $attributes['height'] . '" ' : '')
+				(isset($attributes['height']) ? 'height="' . $attributes['height'] . '" ' : '') .
+				(isset($attributes['loading']) ? 'loading="' . $attributes['loading'] . '" ' : 'loading="lazy" ')
 			)
 		);
 	}
