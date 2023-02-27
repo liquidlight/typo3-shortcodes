@@ -22,7 +22,6 @@ class FacebookKeyword extends AbstractKeyword
 				$value
 			);
 		} else {
-			return '<script async defer src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2"></script><div width="500" class="fb-post" data-href="' . $value . '"></div>';
 			return sprintf(
 				'<script async defer src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2"></script><div data-href="%s" %s class="fb-post"></div>',
 				$value,
