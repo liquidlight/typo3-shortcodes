@@ -11,12 +11,24 @@ class VimeoKeyword extends VideoKeyword
 	) {
 		$value = $attributes['code'] ?: $attributes['url'] ?: $attributes['value'];
 
-		preg_match('/vimeo\.com\/([0-9]{1,10})/', $value, $matches);
+		/**
+		 * Vimeo URLs come in many different fashions - see link below for regex in action
+		 *
+		 * https://regex101.com/r/5zMM1k/1
+		 */
+		preg_match('/vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|)(\d+)(?:|\/\?)\/?([\d|\w]*)\/?/', $value, $matches);
+
+
+		$code = $value;
+		if (count($matches)) {
+			// If it is unlisted, then append the hash
+			$code = trim($matches[2]) . (isset($matches[3]) && !is_null($matches[3]) ? '?h=' . trim($matches[3]) : '');
+		}
 
 		return sprintf(
 			'<div class="shortcode video vimeo" data-ratio="%s"><iframe src="https://player.vimeo.com/video/%s" %s allowfullscreen></iframe></div>',
 			$this->getRatio($attributes),
-			(count($matches) ? trim($matches[1]) : $value),
+			$code,
 			(
 				(isset($attributes['width']) ? 'width="' . $attributes['width'] . '" ' : '') .
 				(isset($attributes['height']) ? 'height="' . $attributes['height'] . '" ' : '') .
