@@ -1,3 +1,16 @@
+# 1.4.0
+
+**27th February 2023**
+
+#### Task
+
+- Add lazy loading to video and other iframes (#12)
+
+#### Bug
+
+- Resolve Vimeo embed when used with an unlisted video (#15)
+- Remove duplicate return (#14)
+
 # 1.3.0
 
 **29th June 2022**
