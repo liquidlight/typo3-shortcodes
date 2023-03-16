@@ -17,7 +17,7 @@ class IframeKeyword extends AbstractKeyword
 		array $attributes,
 		string $match
 	) {
-		$value = $attributes['value'];
+		$src = $attributes['value'];
 		unset($attributes['value']);
 
 		$properties = [];
@@ -27,7 +27,7 @@ class IframeKeyword extends AbstractKeyword
 
 		return sprintf(
 			'<div class="shortcode iframe"><iframe src="%s" %s></iframe></div>',
-			$value,
+			$src,
 			implode(' ', $properties)
 		);
 	}
