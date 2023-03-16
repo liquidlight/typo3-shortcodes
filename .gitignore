@@ -1,6 +1,7 @@
 ._*
 .DS_Store
-
+.idea
 vendor/
-
 *GENERATED*
+/var
+/vendor
