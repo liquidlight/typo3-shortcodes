@@ -5,11 +5,11 @@ defined('TYPO3_MODE') or die();
 call_user_func(function () {
 	$shortcodesExtConf = &$GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['shortcodes'];
 
-	if (!is_array($shortcodesExtConf['processShortcode'])) {
+	if (!is_array($shortcodesExtConf['processShortcode'] ?? false)) {
 		$shortcodesExtConf['processShortcode'] = [];
 	}
 
-	$shortcodesExtConf['config']['api']['googlemaps'] = $_ENV['GOOGLE_MAP_API'] ?: false;
+	$shortcodesExtConf['config']['api']['googlemaps'] = $_ENV['GOOGLE_MAP_API'] ?? false;
 
 	$shortcodesExtConf['processShortcode'] = array_merge([
 		'facebook' => \LiquidLight\Shortcodes\Keywords\FacebookKeyword::class,
