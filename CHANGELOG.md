@@ -1,3 +1,20 @@
+# 1.5.0
+
+**21st March 2023**
+
+#### Backend
+
+- Update code to be compatible with PHP8
+
+#### Bug
+
+- Rename variable in iframe shortcode as it was overridden when using additional attributes
+
+#### Chore
+
+- Update `.gitignore` file
+
+
 # 1.4.0
 
 **27th February 2023**
