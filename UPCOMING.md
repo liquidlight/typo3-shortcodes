@@ -1,4 +1,8 @@
-# Bug
+# Minor
+
+#### Backend
+
+- Update code to be compatible with PHP8
 
 #### Bug
 
