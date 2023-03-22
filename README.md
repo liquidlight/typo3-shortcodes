@@ -128,7 +128,7 @@ Allows a generic iframe to be rendered with the passed in URL
 
 **Properties:**
 
-- url
+- src
 - width
 - height
 - allowfullscreen

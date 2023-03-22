@@ -5,6 +5,7 @@ namespace LiquidLight\Shortcodes\Keywords;
 class IframeKeyword extends AbstractKeyword
 {
 	protected $attributes = [
+		'src',
 		'width',
 		'height',
 		'allowfullscreen',
@@ -19,6 +20,11 @@ class IframeKeyword extends AbstractKeyword
 	) {
 		$src = $attributes['value'];
 		unset($attributes['value']);
+
+		if (!$src && isset($attributes['src']) && $attributes['src']) {
+			$src = $attributes['src'];
+			unset($attributes['src']);
+		}
 
 		$properties = [];
 		foreach ($attributes as $key => $value) {
