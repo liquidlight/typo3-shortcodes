@@ -131,6 +131,7 @@ Allows a generic iframe to be rendered with the passed in URL
 - src
 - width
 - height
+- ratio - iframe ratio in a colon or slash format (e.g. `ratio="4:3"` or ``ratio="16/9"``) - rendered as a `data-ratio` attribute
 - allowfullscreen
 - allow
 - frameBorder
