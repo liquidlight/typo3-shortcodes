@@ -1,3 +1,12 @@
+# 1.6.0
+
+**2nd June 2023**
+
+#### Feature
+
+- Allow `src` as iframe attribute
+- Allow iframes to have `ratio` attribute
+
 # 1.5.0
 
 **21st March 2023**
