@@ -9,7 +9,15 @@ class YoutubeKeyword extends VideoKeyword
 		array $attributes,
 		string $match
 	) {
-		$value = $attributes['code'] ?: $attributes['url'] ?: $attributes['value'];
+		$value = isset($attributes['code']) && $attributes['code'] ?
+			$attributes['code'] : (
+				isset($attributes['url']) && $attributes['url'] ?
+					$attributes['url'] : (
+						isset($attributes['value']) && $attributes['value'] ?
+							$attributes['value'] :
+							false
+				)
+			);
 		return sprintf(
 			'<div class="shortcode video youtube" data-ratio="%s"><iframe src="https://www.youtube-nocookie.com/embed/%s" %s allowfullscreen></iframe></div>',
 			$this->getRatio($attributes),
