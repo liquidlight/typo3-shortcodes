@@ -16,7 +16,7 @@ class YoutubeKeyword extends VideoKeyword
 						isset($attributes['value']) && $attributes['value'] ?
 							$attributes['value'] :
 							false
-				)
+					)
 			);
 		return sprintf(
 			'<div class="shortcode video youtube" data-ratio="%s"><iframe src="https://www.youtube-nocookie.com/embed/%s" %s allowfullscreen></iframe></div>',
