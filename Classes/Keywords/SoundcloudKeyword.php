@@ -26,7 +26,7 @@ class SoundcloudKeyword extends AbstractKeyword
 		$parameters = array_merge($attributes, $parameters);
 		$parameters = [
 			'format' => 'json',
-			'url' => $attributes['url'] ?: $attributes['value'],
+			'url' => isset($attributes['url']) && $attributes['url'] ? $attributes['url'] : $attributes['value'],
 		];
 
 		if ($track = file_get_contents('https://soundcloud.com/oembed?' . http_build_query($parameters))) {
