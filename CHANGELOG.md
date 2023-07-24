@@ -1,3 +1,11 @@
+# 1.7.0
+
+**24th July 2023**
+
+#### Dependencies
+
+- Add PHP8 compatibility
+
 # 1.6.0
 
 **2nd June 2023**
