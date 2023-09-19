@@ -1,13 +1,9 @@
 {
     "name": "liquidlight/typo3-shortcodes",
     "description": "Wordpress-style shortcodes for TYPO3",
-    "type": "typo3-cms-extension",
     "license": "GPL-2.0+",
-    "homepage": "https://github.com/liquidlight/typo3-shortcodes",
+    "type": "typo3-cms-extension",
     "readme": "./README.md",
-    "require": {
-        "typo3/cms-core": "^9.5 || ^10.4 || ^11.5"
-    },
     "authors": [
         {
             "name": "Liquid Light",
@@ -19,15 +15,19 @@
             "email": "mike@liquidlight.co.uk"
         }
     ],
+    "homepage": "https://github.com/liquidlight/typo3-shortcodes",
     "support": {
         "issues": "https://github.com/liquidlight/typo3-shortcodes/issues",
         "source": "https://github.com/liquidlight/typo3-shortcodes"
     },
+    "require": {
+        "typo3/cms-core": "^9.5 || ^10.4 || ^11.5"
+    },
     "autoload": {
-		"psr-4": {
-			"LiquidLight\\Shortcodes\\": "Classes"
-		}
-	},
+        "psr-4": {
+            "LiquidLight\\Shortcodes\\": "Classes"
+        }
+    },
     "extra": {
         "typo3/cms": {
             "extension-key": "shortcodes"
