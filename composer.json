@@ -21,7 +21,7 @@
         "source": "https://github.com/liquidlight/typo3-shortcodes"
     },
     "require": {
-        "typo3/cms-core": "^9.5 || ^10.4 || ^11.5"
+        "typo3/cms-core": "^11.5 || ^12.4"
     },
     "autoload": {
         "psr-4": {
