@@ -18,7 +18,7 @@ class FacebookKeyword extends AbstractKeyword
 
 		if (strpos($value, '/videos/') !== false || $keyword === 'facebookvideo') {
 			return sprintf(
-				'<div class="shortcode video facebook"><iframe src="https://www.facebook.com/plugins/video.php?href=%s scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen="true"></iframe></div>',
+				'<div class="shortcode video facebook"><iframe src="https://www.facebook.com/plugins/video.php?href=%s" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen="true"></iframe></div>',
 				$value
 			);
 		} else {
