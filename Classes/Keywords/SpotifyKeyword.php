@@ -5,10 +5,10 @@ namespace LiquidLight\Shortcodes\Keywords;
 class SpotifyKeyword extends AbstractKeyword
 {
 	protected $attributes = [
-		'theme', // Can be 0 or 1
 		'height', // Should be 380 or 0
-		'width',
 		'loading',
+		'theme', // Can be 0 or 1
+		'width',
 	];
 
 	public function processShortcode(

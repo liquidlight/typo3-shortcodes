@@ -5,9 +5,9 @@ namespace LiquidLight\Shortcodes\Keywords;
 class LinkedInKeyword extends AbstractKeyword
 {
 	protected $attributes = [
-		'width',
 		'height',
 		'loading',
+		'width',
 	];
 
 	public function processShortcode(

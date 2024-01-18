@@ -5,8 +5,8 @@ namespace LiquidLight\Shortcodes\Keywords;
 class InstagramKeyword extends AbstractKeyword
 {
 	protected $attributes = [
-		'url',
 		'code',
+		'url',
 	];
 
 	public function processShortcode(

@@ -5,8 +5,8 @@ namespace LiquidLight\Shortcodes\Keywords;
 class FacebookKeyword extends AbstractKeyword
 {
 	protected $attributes = [
-		'width',
 		'height',
+		'width',
 	];
 
 	public function processShortcode(
