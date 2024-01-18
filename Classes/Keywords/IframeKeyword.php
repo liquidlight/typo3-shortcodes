@@ -36,9 +36,10 @@ class IframeKeyword extends AbstractKeyword
 		}
 
 		return sprintf(
-			'<div class="shortcode iframe" %s><iframe src="%s" %s></iframe></div>',
+			'<div class="shortcode iframe" %s><iframe src="%s" title="%s" %s></iframe></div>',
 			$ratio ? sprintf('data-ratio="%s"', $ratio) : '',
 			$src,
+			$this->getTitle($attributes),
 			implode(' ', $properties)
 		);
 	}

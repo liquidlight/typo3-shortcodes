@@ -19,9 +19,10 @@ class VideoKeyword extends AbstractKeyword
 		string $match
 	) {
 		return sprintf(
-			'<div class="shortcode video" data-ratio="%s"><iframe src="%s" %s allowfullscreen></iframe></div>',
+			'<div class="shortcode video" data-ratio="%s"><iframe src="%s" title="%s" %s allowfullscreen></iframe></div>',
 			$this->getRatio($attributes),
 			$attributes['value'],
+			$this->getTitle($attributes),
 			(
 				(isset($attributes['width']) ? 'width="' . $attributes['width'] . '" ' : '') .
 				(isset($attributes['height']) ? 'height="' . $attributes['height'] . '" ' : '') .

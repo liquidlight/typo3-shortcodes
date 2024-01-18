@@ -19,9 +19,10 @@ class YoutubeKeyword extends VideoKeyword
 					)
 			);
 		return sprintf(
-			'<div class="shortcode video youtube" data-ratio="%s"><iframe src="https://www.youtube-nocookie.com/embed/%s" %s allowfullscreen></iframe></div>',
+			'<div class="shortcode video youtube" data-ratio="%s"><iframe src="https://www.youtube-nocookie.com/embed/%s" title="%s" %s allowfullscreen></iframe></div>',
 			$this->getRatio($attributes),
 			($this->getYoutubeCode($value) ?: $value),
+			$this->getTitle($attributes),
 			(
 				(isset($attributes['width']) ? 'width="' . $attributes['width'] . '" ' : '') .
 				(isset($attributes['height']) ? 'height="' . $attributes['height'] . '" ' : '') .

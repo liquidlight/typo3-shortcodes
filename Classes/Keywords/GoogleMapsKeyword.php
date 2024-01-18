@@ -73,14 +73,21 @@ class GoogleMapsKeyword extends AbstractKeyword
 			unset($attributes['search']);
 		}
 
+		$title = $this->getTitle($attributes);
+		if (isset($attributes['title'])) {
+			// Remove title as Google maps doesn't like it
+			unset($attributes['title']);
+		}
+
 		// Merge passed in parameters
 		$parameters = array_merge($attributes, $parameters);
 
 		$url = sprintf('https://www.google.com/maps/embed/v1/%s?', $map_mode);
 
 		return sprintf(
-			'<div class="shortcodes map googlemap"><iframe src="%s" width="%s" height="%s" loading="%s" frameborder="0" allowfullscreen></iframe></div>',
+			'<div class="shortcodes map googlemap"><iframe src="%s" title="%s" width="%s" height="%s" loading="%s" frameborder="0" allowfullscreen></iframe></div>',
 			$url . http_build_query($parameters),
+			$title,
 			($attributes['width'] ?? '100%'),
 			($attributes['height'] ?? 450),
 			($attributes['loading'] ?? 'lazy'),
