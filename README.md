@@ -216,14 +216,14 @@ Click the 3 dots -> Share -> Copy Link
 [spotify=LINK height="380" theme="1"]
 ```
 
-### Twitter
+### X
 
-`[twitter | tweet]`
+`[x | twitter | tweet]`
 
 Copy the URL (or the status code) of a tweet
 
 ```
-[twitter=https://twitter.com/Interior/status/463440424141459456 ]
+[x=https://twitter.com/Interior/status/463440424141459456 ]
 ```
 
 **Properties:**

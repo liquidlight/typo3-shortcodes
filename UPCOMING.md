@@ -3,6 +3,7 @@
 #### Feature
 
 - Add concept of global allowed attributes
+- Add `x` to Twitter shortcode
 
 #### Fix
 
