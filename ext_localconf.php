@@ -25,5 +25,6 @@ call_user_func(function () {
 		'video' => \LiquidLight\Shortcodes\Keywords\VideoKeyword::class,
 		'vimeo' => \LiquidLight\Shortcodes\Keywords\VimeoKeyword::class,
 		'youtube' => \LiquidLight\Shortcodes\Keywords\YoutubeKeyword::class,
+		'x' => \LiquidLight\Shortcodes\Keywords\TwitterKeyword::class,
 	], $shortcodesExtConf['processShortcode']);
 });
