@@ -5,13 +5,13 @@ namespace LiquidLight\Shortcodes\Keywords;
 class IframeKeyword extends AbstractKeyword
 {
 	protected $attributes = [
-		'src',
-		'width',
+		'allow',
+		'allowfullscreen',
+		'frameBorder',
 		'height',
 		'ratio',
-		'allowfullscreen',
-		'allow',
-		'frameBorder',
+		'src',
+		'width',
 	];
 
 	public function processShortcode(

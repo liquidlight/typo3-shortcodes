@@ -10,12 +10,12 @@ namespace LiquidLight\Shortcodes\Keywords;
 class SoundcloudKeyword extends AbstractKeyword
 {
 	protected $attributes = [
-		'url',
-		'maxwidth',
-		'maxheight', // 166 or 450
-		'color',
 		'auto_play',
+		'color',
+		'maxheight', // 166 or 450
+		'maxwidth',
 		'show_comments',
+		'url',
 	];
 
 	public function processShortcode(

@@ -6,11 +6,11 @@ class VideoKeyword extends AbstractKeyword
 {
 	protected $attributes = [
 		'code',
+		'height',
+		'loading',
+		'ratio',
 		'url',
 		'width',
-		'height',
-		'ratio',
-		'loading',
 	];
 
 	public function processShortcode(

@@ -11,18 +11,18 @@ namespace LiquidLight\Shortcodes\Keywords;
 class TwitterKeyword extends AbstractKeyword
 {
 	protected $attributes = [
-		'theme',
-		'widget_type',
-		'limit',
-		'maxwidth',
-		'maxheight',
-		'omit_script',
-		'lang',
-		'related',
+		'aria_polite',
 		'border_color',
 		'chrome',
-		'aria_polite',
 		'dnt',
+		'lang',
+		'limit',
+		'maxheight',
+		'maxwidth',
+		'omit_script',
+		'related',
+		'theme',
+		'widget_type',
 	];
 
 	public function processShortcode(
