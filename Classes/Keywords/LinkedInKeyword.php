@@ -23,8 +23,9 @@ class LinkedInKeyword extends AbstractKeyword
 		}
 
 		return sprintf(
-			'<div class="shortcode linkedin post"><iframe src="https://www.linkedin.com/embed/feed/update/%s" width="%s" height="%s" loading="%s" frameborder="0" allowfullscreen title="Embedded post"></iframe></div>',
+			'<div class="shortcode linkedin post"><iframe src="https://www.linkedin.com/embed/feed/update/%s" title="%s" width="%s" height="%s" loading="%s" frameborder="0" allowfullscreen title="Embedded post"></iframe></div>',
 			$value,
+			$this->getTitle($attributes),
 			($attributes['width'] ?? '100%'),
 			($attributes['height'] ?? 600),
 			($attributes['loading'] ?? 'lazy'),

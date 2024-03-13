@@ -34,9 +34,10 @@ class VimeoKeyword extends VideoKeyword
 		}
 
 		return sprintf(
-			'<div class="shortcode video vimeo" data-ratio="%s"><iframe src="https://player.vimeo.com/video/%s" %s allowfullscreen></iframe></div>',
+			'<div class="shortcode video vimeo" data-ratio="%s"><iframe src="https://player.vimeo.com/video/%s" title="%s" %s allowfullscreen></iframe></div>',
 			$this->getRatio($attributes),
 			$code,
+			$this->getTitle($attributes),
 			(
 				(isset($attributes['width']) ? 'width="' . $attributes['width'] . '" ' : '') .
 				(isset($attributes['height']) ? 'height="' . $attributes['height'] . '" ' : '') .

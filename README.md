@@ -55,6 +55,8 @@ Using this method allows you to overwrite existing keywords if you wish to alter
 
 ## Existing Shortcodes
 
+All shortcodes allow `title` as an attribute to add a title to `iframe` based shortcodes. If it is not added, it will default to the type (e.g. "Google Maps")
+
 ### Facebook
 
 `[facebook]`

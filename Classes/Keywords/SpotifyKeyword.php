@@ -30,9 +30,10 @@ class SpotifyKeyword extends AbstractKeyword
 		}
 
 		return sprintf(
-			'<div class="shortcode audio spotify"><iframe src="%s?%s" width="%s" height="%s" loading="%s" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe></div>',
+			'<div class="shortcode audio spotify"><iframe src="%s?%s" title="%s" width="%s" height="%s" loading="%s" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe></div>',
 			$value,
 			(isset($attributes['theme']) && !(bool)$attributes['theme'] ? 'theme=0' : ''),
+			$this->getTitle($attributes),
 			($attributes['width'] ?? '100%'),
 			($attributes['height'] ?? 380),
 			($attributes['loading'] ?? 'lazy'),

@@ -3,6 +3,7 @@
 #### Feature
 
 - Add concept of global allowed attributes
+- Allow passing of `title` through to iframe-based embeds
 - Add `x` to Twitter shortcode
 
 #### Fix
