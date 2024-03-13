@@ -1,3 +1,17 @@
+# 1.8.0
+
+**13th March 2024**
+
+#### Feature
+
+- Add concept of global allowed attributes
+- Allow passing of `title` through to iframe-based embeds
+- Add `x` to Twitter shortcode
+
+#### Fix
+
+- Add missing closing quote in Facebook iframe
+
 # 1.7.0
 
 **24th July 2023**
