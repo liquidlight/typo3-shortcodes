@@ -84,12 +84,12 @@ abstract class AbstractKeyword
 	protected function getTitle($attributes)
 	{
 		// Has a specific title been set?
-		if(isset($attributes['title']) && (strlen($attributes['title']) > 0)) {
+		if (isset($attributes['title']) && (strlen($attributes['title']) > 0)) {
 			return $attributes['title'];
 		}
 
 		// Has a global title been set
-		if($this->title) {
+		if ($this->title) {
 			return $this->title;
 		}
 
@@ -112,6 +112,6 @@ abstract class AbstractKeyword
 		});
 
 		// Stitch back together with a space e.g. GoogleMapsKeyword => Google Maps
-		return  implode(' ', $classNameWords ?? []);
+		return implode(' ', $classNameWords ?? []);
 	}
 }
