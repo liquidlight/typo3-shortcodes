@@ -12,6 +12,10 @@ jobs:
       fail-fast: false
     steps:
       - uses: actions/checkout@v1
+
+      - name: "LintKit: PHP Coding Standards"
+        uses: lintkit/php-coding-standards@0.1.2
+
       - uses: tomasnorre/typo3-upload-ter@v2
         with:
           api-token: ${{ secrets.TYPO3_API_TOKEN }}

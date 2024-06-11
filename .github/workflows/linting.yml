@@ -6,7 +6,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - name: PHP-CS-Fixer
-      uses: docker://oskarstark/php-cs-fixer-ga
-      with:
-        args: --config=.project.php_cs --diff --dry-run
+
+    - name: "LintKit: PHP Coding Standards"
+      uses: lintkit/php-coding-standards@0.1.2
