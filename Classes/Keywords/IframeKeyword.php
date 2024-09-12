@@ -19,7 +19,7 @@ class IframeKeyword extends AbstractKeyword
 		array $attributes,
 		string $match
 	) {
-		$src = $attributes['value'];
+		$src = array_key_exists('value', $attributes) ? $attributes['value'] : [];
 		unset($attributes['value']);
 
 		if (!$src && isset($attributes['src']) && $attributes['src']) {
