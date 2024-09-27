@@ -1,3 +1,11 @@
+# 2.0.1
+
+**27th September 2024**
+
+#### Fix
+
+- Resolve PHP8 issue
+
 # 2.0.0
 
 **13th March 2024**
