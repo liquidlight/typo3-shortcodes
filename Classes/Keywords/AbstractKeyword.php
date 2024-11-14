@@ -7,22 +7,6 @@ use TYPO3\CMS\Core\Http\Response;
 abstract class AbstractKeyword
 {
 	/**
-	 * response
-	 *
-	 * The middleware reposnse object
-	 */
-	protected $response;
-
-	/**
-	 * body
-	 *
-	 * The page response as a string
-	 *
-	 * @var string
-	 */
-	protected $body;
-
-	/**
 	 * title
 	 *
 	 * The title of the Keyword (used in HTML attiritbues)
@@ -48,12 +32,6 @@ abstract class AbstractKeyword
 	private $globalAttributes = [
 		'title',
 	];
-
-	public function __construct(Response $response, string $body)
-	{
-		$this->response = $response;
-		$this->body = $body;
-	}
 
 	abstract public function processShortcode(
 		string $keyword,

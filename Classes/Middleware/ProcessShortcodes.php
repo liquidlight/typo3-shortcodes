@@ -66,11 +66,7 @@ class ProcessShortcodes implements MiddlewareInterface
 
 		// Instantiate the classes we'll need for this page
 		foreach (array_unique($pageShortcodes[2]) as $keyword) {
-			$keywordConfigs[$keyword] = GeneralUtility::makeInstance(
-				$keywordConfigs[$keyword],
-				$response,
-				$body
-			);
+			$this->keywordConfigs[$keyword] = GeneralUtility::makeInstance($this->keywordConfigs[$keyword]);
 		}
 
 
