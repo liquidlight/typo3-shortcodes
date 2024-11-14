@@ -2,12 +2,13 @@
 
 namespace LiquidLight\Shortcodes\Middleware;
 
+use TYPO3\CMS\Core\Http\Stream;
+use TYPO3\CMS\Core\Http\HtmlResponse;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\MiddlewareInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Psr\Http\Message\ResponseInterface;
-use TYPO3\CMS\Core\Http\HtmlResponse;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 
 class ProcessShortcodes implements MiddlewareInterface
@@ -99,8 +100,9 @@ class ProcessShortcodes implements MiddlewareInterface
 			}
 		}
 
-		// Return the modified HTML
-		return new HtmlResponse($body);
+		$page = new Stream('php://temp', 'rw');
+		$page->write($body);
+		return $response->withBody($page);
 	}
 
 	/**
