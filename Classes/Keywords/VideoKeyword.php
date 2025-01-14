@@ -2,9 +2,10 @@
 
 namespace LiquidLight\Shortcodes\Keywords;
 
-class VideoKeyword extends AbstractKeyword
+class VideoKeyword extends IframeKeyword
 {
 	protected $attributes = [
+		'src',
 		'code',
 		'height',
 		'loading',
@@ -18,59 +19,13 @@ class VideoKeyword extends AbstractKeyword
 		array $attributes,
 		string $match
 	) {
-		return sprintf(
-			'<div class="shortcode video" data-ratio="%s"><iframe src="%s" title="%s" %s allowfullscreen></iframe></div>',
-			$this->getRatio($attributes),
-			$attributes['value'],
-			$this->getTitle($attributes),
-			(
-				(isset($attributes['width']) ? 'width="' . $attributes['width'] . '" ' : '') .
-				(isset($attributes['height']) ? 'height="' . $attributes['height'] . '" ' : '') .
-				(isset($attributes['loading']) ? 'loading="' . $attributes['loading'] . '" ' : 'loading="lazy" ')
-			)
-		);
+		$shortcode = parent::processShortcode($keyword, $attributes, $match);
+
+		return str_replace('class="shortcode iframe"', 'class="shortcode video"', $shortcode);
 	}
 
-	/**
-	 * getRatio
-	 *
-	 * Get the ratio of a video from a passed in width & height
-	 *
-	 * @param  array $attributes
-	 * @return string
-	 */
-	protected function getRatio(array $attributes): string
+	protected function getRatio(array $attributes, $defaultRatio = null): string
 	{
-		// Set a default ratio
-		$ratio = '16:9';
-
-		// Return existing ratio if set - create a standard separated by colon
-		if (isset($attributes['ratio'])) {
-			return str_replace('/', ':', $attributes['ratio']);
-		}
-
-		// Return default if we don't have width and height
-		if (!isset($attributes['width']) || !isset($attributes['height'])) {
-			return $ratio;
-		}
-
-		// Strip any non-numeric characters (e.g. px, rem)
-		$width = preg_replace('/[^0-9]/', '', $attributes['width']);
-		$height = preg_replace('/[^0-9]/', '', $attributes['height']);
-
-		// Return default if we don't have numeric widths & heights
-		if (!(bool)$width || !(bool)$height) {
-			return $ratio;
-		}
-
-		// Calculate ratio
-		for ($i = $height; $i > 1; $i--) {
-			if (($width % $i) == 0 && ($height % $i) == 0) {
-				$width = $width / $i;
-				$height = $height / $i;
-			}
-		}
-
-		return sprintf('%s:%s', $width, $height);
+		return parent::getRatio($attributes, '16:9');
 	}
 }

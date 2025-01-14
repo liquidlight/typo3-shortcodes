@@ -19,6 +19,7 @@ class IframeKeyword extends AbstractKeyword
 		array $attributes,
 		string $match
 	) {
+
 		$src = array_key_exists('value', $attributes) ? $attributes['value'] : '';
 		unset($attributes['value']);
 
@@ -52,11 +53,17 @@ class IframeKeyword extends AbstractKeyword
 	 * @param  array $attributes
 	 * @return string
 	 */
-	protected function getRatio(array $attributes): string
+	protected function getRatio(array $attributes, $defaultRatio = null): string
 	{
+
 		// Return existing ratio if set - create a standard separated by colon
 		if (isset($attributes['ratio'])) {
 			return str_replace('/', ':', $attributes['ratio']);
+		}
+
+		// Return default if we don't have width and height
+		if ($defaultRatio && (!isset($attributes['width']) || !isset($attributes['height']))) {
+			return $defaultRatio;
 		}
 
 		// Strip any non-numeric characters (e.g. px, rem)
@@ -65,7 +72,7 @@ class IframeKeyword extends AbstractKeyword
 
 		// Return default if we don't have numeric widths & heights
 		if (!(bool)$width || !(bool)$height) {
-			return false;
+			return $defaultRatio ?? false;
 		}
 
 		// Calculate ratio
