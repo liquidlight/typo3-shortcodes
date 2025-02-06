@@ -30,21 +30,19 @@ class ProcessShortcodes implements MiddlewareInterface
 		/**
 		 * Find all known shortcodes located in HTML attributes and remove them
 		 *
-		 * This prevents Shortcode HTML being renderd where it shouldn't be, e.g. in the head
+		 * This prevents Shortcode HTML being rendered where it shouldn't be, e.g. in the head
 		 */
-		$body = preg_replace(
-			'/(="[^"]*?)(\[\s?(?>' . implode('|', array_keys($keywordConfigs)) . ')[:|=|\s].*?\])([^"]*?")/',
-			"$1$3",
-			$body
+		$this->removeUndesiredShortcodes(
+			$body,
+			'/(="[^"]*?)(\[\s?(?>' . implode('|', array_keys($keywordConfigs)) . ')[:|=|\s|].*?\])([^"]*?")/'
 		);
 
 		/**
 		 * Remove all known shortcodes from between key/valued quotes - e.g. in JSON Schema
 		 */
-		$body = preg_replace(
-			'/("[^"]*"\s*:\s*"[^"]*)(\[\s?(?>' . implode('|', array_keys($keywordConfigs)) . ')[:|=|\s].*?\])([^"]*")/',
-			"$1$3",
-			$body
+		$this->removeUndesiredShortcodes(
+			$body,
+			'/("[^"]*"\s*:\s*"[^"]*)(\[\s?(?>' . implode('|', array_keys($keywordConfigs)) . ')[:|=|\s].*?\])([^"]*")/'
 		);
 
 		// Find all the defined shortcodes in the page followed by a `:`, `=` or space
@@ -200,5 +198,19 @@ class ProcessShortcodes implements MiddlewareInterface
 		}
 
 		return false;
+	}
+
+	/**
+	 * While the regex finds entries in undesired places, remove them
+	 */
+	protected function removeUndesiredShortcodes(string &$contents, string $regex): void
+	{
+		while (preg_match($regex, $contents, $matches)) {
+			$contents = preg_replace(
+				$regex,
+				"$1$3",
+				$contents,
+			);
+		}
 	}
 }
