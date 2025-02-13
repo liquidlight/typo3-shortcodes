@@ -67,8 +67,8 @@ class IframeKeyword extends AbstractKeyword
 		}
 
 		// Strip any non-numeric characters (e.g. px, rem)
-		$width = preg_replace('/[^0-9]/', '', $attributes['width'] ?? null);
-		$height = preg_replace('/[^0-9]/', '', $attributes['height'] ?? null);
+		$width = isset($attributes['width']) ? preg_replace('/[^0-9]/', '', $attributes['width']) : false;
+		$height = isset($attributes['height']) ? preg_replace('/[^0-9]/', '', $attributes['height']) : false;
 
 		// Return default if we don't have numeric widths & heights
 		if (!(bool)$width || !(bool)$height) {
