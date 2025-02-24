@@ -1,3 +1,16 @@
+# 2.1.0
+
+**24th February 2025**
+
+#### Feature
+
+- `video` shortcode now inherits from `iframe`
+
+#### Fix
+
+- Multiple instances of shortcode in meta tag will now be replace
+- Fix PHP8 warnings
+
 # 2.0.1
 
 **27th September 2024**
