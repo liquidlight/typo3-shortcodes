@@ -1,3 +1,12 @@
+# 2.1.1
+
+**26th February 2025**
+
+#### Fix
+
+- Ensure middleware continues correct request (#32)
+- Correct construct for Google maps & abstract
+
 # 2.1.0
 
 **24th February 2025**

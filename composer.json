@@ -3,7 +3,7 @@
     "description": "Wordpress-style shortcodes for TYPO3",
     "license": "GPL-2.0+",
     "type": "typo3-cms-extension",
-    "version": "2.1.0",
+    "version": "2.1.1",
     "readme": "./README.md",
     "authors": [
         {
