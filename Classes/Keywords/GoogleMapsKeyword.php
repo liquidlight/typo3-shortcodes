@@ -39,9 +39,8 @@ class GoogleMapsKeyword extends AbstractKeyword
 
 	protected $key;
 
-	public function __construct(Response $response, string $body)
+	public function __construct()
 	{
-		parent::__construct($response, $body);
 		$config = GeneralUtility::makeInstance(ExtensionConfiguration::class)
 			->get('shortcodes', 'config')
 		;

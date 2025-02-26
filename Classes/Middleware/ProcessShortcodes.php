@@ -2,16 +2,19 @@
 
 namespace LiquidLight\Shortcodes\Middleware;
 
+use TYPO3\CMS\Core\Http\Stream;
+use TYPO3\CMS\Core\Http\HtmlResponse;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\MiddlewareInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Psr\Http\Message\ResponseInterface;
-use TYPO3\CMS\Core\Http\HtmlResponse;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 
 class ProcessShortcodes implements MiddlewareInterface
 {
+	protected $keywordConfigs;
+
 	public function process(
 		ServerRequestInterface $request,
 		RequestHandlerInterface $handler
@@ -23,10 +26,33 @@ class ProcessShortcodes implements MiddlewareInterface
 		$body = $response->getBody()->__toString();
 
 		// Get our defined shortcodes
-		$keywordConfigs = GeneralUtility::makeInstance(ExtensionConfiguration::class)
+		$this->keywordConfigs = GeneralUtility::makeInstance(ExtensionConfiguration::class)
 			->get('shortcodes', 'processShortcode')
 		;
 
+		$pageShortcodes = $this->findShortcodes($body);
+
+		// If we have shortcodes & are a HTML page
+		if (count($pageShortcodes) && $this->isHtml($response)) {
+			$this->instantiateRequiredShortcodes($pageShortcodes);
+			$body = $this->hydrateShortcodes($pageShortcodes, $body);
+			$page = new Stream('php://temp', 'rw');
+			$page->write($body);
+			$response = $response->withBody($page);
+		}
+
+		// Return the modified HTML
+		return $response;
+	}
+
+	/**
+	 * Find all the registered shortcodes in the page
+	 */
+	protected function findShortcodes($body): array
+	{
+		if (!count($this->keywordConfigs)) {
+			return [];
+		}
 		/**
 		 * Find all known shortcodes located in HTML attributes and remove them
 		 *
@@ -34,7 +60,7 @@ class ProcessShortcodes implements MiddlewareInterface
 		 */
 		$this->removeUndesiredShortcodes(
 			$body,
-			'/(="[^"]*?)(\[\s?(?>' . implode('|', array_keys($keywordConfigs)) . ')[:|=|\s|].*?\])([^"]*?")/'
+			'/(="[^"]*?)(\[\s?(?>' . implode('|', array_keys($this->keywordConfigs)) . ')[:|=|\s|].*?\])([^"]*?")/'
 		);
 
 		/**
@@ -42,38 +68,35 @@ class ProcessShortcodes implements MiddlewareInterface
 		 */
 		$this->removeUndesiredShortcodes(
 			$body,
-			'/("[^"]*"\s*:\s*"[^"]*)(\[\s?(?>' . implode('|', array_keys($keywordConfigs)) . ')[:|=|\s].*?\])([^"]*")/'
+			'/("[^"]*"\s*:\s*"[^"]*)(\[\s?(?>' . implode('|', array_keys($this->keywordConfigs)) . ')[:|=|\s].*?\])([^"]*")/'
 		);
 
 		// Find all the defined shortcodes in the page followed by a `:`, `=` or space
 		preg_match_all(
-			'/\[\s?((' . implode('|', array_keys($keywordConfigs)) . ')\s?[:|= ]\s?(.*?))\]/',
+			'/\[\s?((' . implode('|', array_keys($this->keywordConfigs)) . ')\s?[:|= ]\s?(.*?))\]/',
 			$body,
 			$pageShortcodes
 		);
 
-		if (
-			// No registered keywords?
-			!count($keywordConfigs) ||
-			// No found shortcodes?
-			!count($pageShortcodes) ||
-			// Don't process if we're not HTML
-			!$this->isHtml($response)
-		) {
-			// Return the unmodified response
-			return $response;
-		}
+		return $pageShortcodes ?? [];
+	}
 
+	/**
+	 * Instantiate all the shortcodes used on the page
+	 */
+	protected function instantiateRequiredShortcodes(array $pageShortcodes): void
+	{
 		// Instantiate the classes we'll need for this page
 		foreach (array_unique($pageShortcodes[2]) as $keyword) {
-			$keywordConfigs[$keyword] = GeneralUtility::makeInstance(
-				$keywordConfigs[$keyword],
-				$response,
-				$body
-			);
+			$this->keywordConfigs[$keyword] = GeneralUtility::makeInstance($this->keywordConfigs[$keyword]);
 		}
+	}
 
-
+	/**
+	 * Replace the shortcodes with their actual HTML
+	 */
+	protected function hydrateShortcodes($pageShortcodes, $body): string
+	{
 		// Loop through the keywords and process
 		foreach ($pageShortcodes[2] as $index => $keyword) {
 			// e.g. youtube: www.youtube.com/?v=123
@@ -88,10 +111,10 @@ class ProcessShortcodes implements MiddlewareInterface
 			$attributes = $this->extractData($keyword, $pageShortcodes[1][$index]);
 
 			// Remove any attributes we don't know about
-			$keywordConfigs[$keyword]->removeAlienAttributes($attributes);
+			$this->keywordConfigs[$keyword]->removeAlienAttributes($attributes);
 
 			// Fire method and get built HTML
-			$result = $keywordConfigs[$keyword]->processShortcode(
+			$result = $this->keywordConfigs[$keyword]->processShortcode(
 				$keyword,
 				$attributes,
 				$match
@@ -103,8 +126,7 @@ class ProcessShortcodes implements MiddlewareInterface
 			}
 		}
 
-		// Return the modified HTML
-		return new HtmlResponse($body);
+		return $body;
 	}
 
 	/**
@@ -113,10 +135,6 @@ class ProcessShortcodes implements MiddlewareInterface
 	 * Convert a shortcode from a string into a key value array. If the keyword
 	 * and a `:` or `=` is used (e.g. `[youtube=123]` )then 123 will returned as
 	 * `value => 123`
-	 *
-	 * @param  string $keyword The keyword (e.g. youtube)
-	 * @param  string $data The whole of the string
-	 * @return array
 	 */
 	private function extractData(string $keyword, string $data): array
 	{
@@ -159,9 +177,6 @@ class ProcessShortcodes implements MiddlewareInterface
 	 * sanitiseData
 	 *
 	 * Remove all the unwanted gumpf that the WYSIWYG might add
-	 *
-	 * @param  string $value
-	 * @return void
 	 */
 	protected function sanitiseData(string $value): string
 	{
@@ -179,9 +194,6 @@ class ProcessShortcodes implements MiddlewareInterface
 	 * isHtml
 	 *
 	 * Determine if the current page is HTML
-	 *
-	 * @param  ResponseInterface $response
-	 * @return bool
 	 */
 	protected function isHtml(ResponseInterface $response): bool
 	{
