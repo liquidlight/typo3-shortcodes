@@ -1,3 +1,11 @@
+# 2.1.2
+
+**24th March 2025**
+
+#### Fix
+
+- Remove undesired shortcodes from page response (fixes regression from `64b34b4`)
+
 # 2.1.1
 
 **26th February 2025**
