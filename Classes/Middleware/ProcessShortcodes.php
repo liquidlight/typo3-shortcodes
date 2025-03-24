@@ -27,8 +27,15 @@ class ProcessShortcodes implements MiddlewareInterface
 
 		// Get our defined shortcodes
 		$this->keywordConfigs = GeneralUtility::makeInstance(ExtensionConfiguration::class)
-			->get('shortcodes', 'processShortcode')
+			->get('shortcodes', 'processShortcode') ?? []
 		;
+
+		// If there are no configs, don't continue
+		if (!count($this->keywordConfigs)) {
+			return $response;
+		}
+
+		$body = $this->removeUndesiredShortcodes($body);
 
 		$pageShortcodes = $this->findShortcodes($body);
 
@@ -46,19 +53,16 @@ class ProcessShortcodes implements MiddlewareInterface
 	}
 
 	/**
-	 * Find all the registered shortcodes in the page
+	 * Remove all unwanted shortcodes from the HTML
 	 */
-	protected function findShortcodes($body): array
+	protected function removeUndesiredShortcodes(string $body): string
 	{
-		if (!count($this->keywordConfigs)) {
-			return [];
-		}
 		/**
 		 * Find all known shortcodes located in HTML attributes and remove them
 		 *
 		 * This prevents Shortcode HTML being rendered where it shouldn't be, e.g. in the head
 		 */
-		$this->removeUndesiredShortcodes(
+		$this->removeShortcodes(
 			$body,
 			'/(="[^"]*?)(\[\s?(?>' . implode('|', array_keys($this->keywordConfigs)) . ')[:|=|\s|].*?\])([^"]*?")/'
 		);
@@ -66,11 +70,19 @@ class ProcessShortcodes implements MiddlewareInterface
 		/**
 		 * Remove all known shortcodes from between key/valued quotes - e.g. in JSON Schema
 		 */
-		$this->removeUndesiredShortcodes(
+		$this->removeShortcodes(
 			$body,
 			'/("[^"]*"\s*:\s*"[^"]*)(\[\s?(?>' . implode('|', array_keys($this->keywordConfigs)) . ')[:|=|\s].*?\])([^"]*")/'
 		);
 
+		return $body;
+	}
+
+	/**
+	 * Find all the registered shortcodes in the page
+	 */
+	protected function findShortcodes($body): array
+	{
 		// Find all the defined shortcodes in the page followed by a `:`, `=` or space
 		preg_match_all(
 			'/\[\s?((' . implode('|', array_keys($this->keywordConfigs)) . ')\s?[:|= ]\s?(.*?))\]/',
@@ -215,7 +227,7 @@ class ProcessShortcodes implements MiddlewareInterface
 	/**
 	 * While the regex finds entries in undesired places, remove them
 	 */
-	protected function removeUndesiredShortcodes(string &$contents, string $regex): void
+	protected function removeShortcodes(string &$contents, string $regex): void
 	{
 		while (preg_match($regex, $contents, $matches)) {
 			$contents = preg_replace(
