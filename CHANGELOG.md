@@ -1,3 +1,11 @@
+# 2.2.0
+
+**16th July 2025**
+
+#### Depndencies
+
+- Add support for TYPO3 13 ([#36](https://github.com/liquidlight/typo3-shortcodes/issues/36))
+
 # 2.1.2
 
 **24th March 2025**
