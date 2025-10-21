@@ -2,18 +2,25 @@
 
 namespace LiquidLight\Shortcodes\Middleware;
 
+use LiquidLight\Shortcodes\Utility\HtmlTagProcessor;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
-use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Http\Stream;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class ProcessShortcodes implements MiddlewareInterface
 {
-	protected $keywordConfigs;
+	protected array $keywordConfigs = [];
+
+	protected HtmlTagProcessor $htmlProcessor;
+
+	public function __construct()
+	{
+		$this->htmlProcessor = new HtmlTagProcessor();
+	}
 
 	public function process(
 		ServerRequestInterface $request,
@@ -43,6 +50,8 @@ class ProcessShortcodes implements MiddlewareInterface
 		if (count($pageShortcodes) && $this->isHtml($response)) {
 			$this->instantiateRequiredShortcodes($pageShortcodes);
 			$body = $this->hydrateShortcodes($pageShortcodes, $body);
+			$body = $this->htmlProcessor->removeInvalidShortcodeWrappers($body);
+
 			$page = new Stream('php://temp', 'rw');
 			$page->write($body);
 			$response = $response->withBody($page);
@@ -62,18 +71,13 @@ class ProcessShortcodes implements MiddlewareInterface
 		 *
 		 * This prevents Shortcode HTML being rendered where it shouldn't be, e.g. in the head
 		 */
-		$this->removeShortcodes(
-			$body,
-			'/(="[^"]*?)(\[\s?(?>' . implode('|', array_keys($this->keywordConfigs)) . ')[:|=|\s|].*?\])([^"]*?")/'
-		);
+		$keywords = implode('|', array_keys($this->keywordConfigs));
 
-		/**
-		 * Remove all known shortcodes from between key/valued quotes - e.g. in JSON Schema
-		 */
-		$this->removeShortcodes(
-			$body,
-			'/("[^"]*"\s*:\s*"[^"]*)(\[\s?(?>' . implode('|', array_keys($this->keywordConfigs)) . ')[:|=|\s].*?\])([^"]*")/'
-		);
+		// Remove from HTML attributes
+		$this->removeShortcodes($body, '/(="[^"]*?)(\[\s?(?>' . $keywords . ')[:|=|\s|].*?\])([^"]*?")/');
+
+		// Remove from JSON key/value pairs
+		$this->removeShortcodes($body, '/("[^"]*"\s*:\s*"[^"]*)(\[\s?(?>' . $keywords . ')[:|=|\s].*?\])([^"]*")/');
 
 		return $body;
 	}
@@ -217,6 +221,7 @@ class ProcessShortcodes implements MiddlewareInterface
 
 		// Split on spaces that are not in quotes
 		$properties = preg_split('/\s(?=([^"]*"[^"]*")*[^"]*$)/', $data);
+		$attributes = [];
 
 		foreach ($properties as $property) {
 			// key="value"
