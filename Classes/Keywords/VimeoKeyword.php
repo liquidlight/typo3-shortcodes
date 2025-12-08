@@ -33,10 +33,18 @@ class VimeoKeyword extends VideoKeyword
 			$code = trim($matches[2]) . (isset($matches[3]) && !is_null($matches[3]) ? '?h=' . trim($matches[3]) : '');
 		}
 
+		// Ensure the do-not-track parameter is appended to the player URL.
+		// If the code already contains a query string (e.g. unlisted videos with ?h=...),
+		// add the parameter with '&', otherwise use '?'. Also avoid duplicating dnt.
+		$videoSrc = 'https://player.vimeo.com/video/' . $code;
+		if (strpos($videoSrc, 'dnt=') === false) {
+			$videoSrc .= (strpos($videoSrc, '?') !== false) ? '&dnt=1' : '?dnt=1';
+		}
+
 		return sprintf(
-			'<div class="shortcode video vimeo" data-ratio="%s"><iframe src="https://player.vimeo.com/video/%s" title="%s" %s allowfullscreen></iframe></div>',
+			'<div class="shortcode video vimeo" data-ratio="%s"><iframe src="%s" title="%s" %s allowfullscreen></iframe></div>',
 			$this->getRatio($attributes),
-			$code,
+			$videoSrc,
 			$this->getTitle($attributes),
 			(
 				(isset($attributes['width']) ? 'width="' . $attributes['width'] . '" ' : '') .
