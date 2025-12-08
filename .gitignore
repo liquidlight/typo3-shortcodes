@@ -1,3 +1,11 @@
-.cache/
+._*
+.DS_Store
+.vscode
+.cache
+.claude
+
+vendor/
+var/
 .Build
-composer.lock
+
+*GENERATED*
