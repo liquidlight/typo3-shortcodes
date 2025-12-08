@@ -48,7 +48,7 @@ Once created, you can add it via the `ext_localconf.php` where `new` is the name
 
 ```php
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['shortcodes']['processShortcode']['new'] =
-	\Vendor\Ext\Keywords\NewKeyword::class;
+    \Vendor\Ext\Keywords\NewKeyword::class;
 ```
 
 Using this method allows you to overwrite existing keywords if you wish to alter their output. The only requirement is that you return a string.
