@@ -278,3 +278,36 @@ Renders a YouTube iframe embed. Can take a full URL or code.
 ```
 
 See [Video](#video) for properties and use.
+
+## Semantic HTML
+
+To ensure your HTML remains semantic, shortcode elements will break out of typographic elements and remove any empty sibling elements.
+
+For example, if your editor had entered the following in the RTE:
+
+```html
+<p>You can watch our latest video [youtube code=123] here</p>
+```
+
+You will find the following HTML output
+
+```html
+<p>You can watch our latest video</p>
+<div class="shortcode video youtube" data-ratio="16:9"><iframe src="https://www.youtube-nocookie.com/embed/123" title="Youtube" loading="lazy" allowfullscreen=""></iframe></div>
+<p>here</p>
+```
+
+If, once the shortcode is placed after it's original element, the original element would be empty, it gets removed from the HTML.
+
+Elements which the shortcode will break out from:
+
+- pre
+- h1
+- h2
+- h3
+- h4
+- h5
+- h6
+- p
+
+The extension will also ensure inline elements (such as `span`, `a` etc.) are closed appropriately.
