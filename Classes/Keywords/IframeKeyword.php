@@ -50,8 +50,6 @@ class IframeKeyword extends AbstractKeyword
 	 *
 	 * Get the ratio of a an iframe from a passed in width & height
 	 *
-	 * @param  array $attributes
-	 * @return string
 	 */
 	protected function getRatio(array $attributes, $defaultRatio = null): string
 	{

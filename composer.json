@@ -24,21 +24,56 @@
     "require": {
         "typo3/cms-core": "^11.5 || ^12.4 || ^13.4"
     },
+    "require-dev": {
+        "ergebnis/composer-normalize": "^2.48",
+        "lintkit/editorconfig-config": "^1.0",
+        "lintkit/php-coding-standards-config": "^2.0",
+        "php-parallel-lint/php-parallel-lint": "^1.4"
+    },
     "autoload": {
         "psr-4": {
             "LiquidLight\\Shortcodes\\": "Classes"
         }
     },
+    "config": {
+        "allow-plugins": {
+            "ergebnis/composer-normalize": true,
+            "typo3/class-alias-loader": true,
+            "typo3/cms-composer-installers": true
+        },
+        "lock": false,
+        "vendor-dir": ".Build/vendor"
+    },
     "extra": {
         "typo3/cms": {
-            "extension-key": "shortcodes"
+            "extension-key": "shortcodes",
+            "web-dir": ".Build/public"
         }
     },
     "scripts": {
+        "clean": "rm -rf .Build",
+        "composer-normalize:dry-run": "@composer-normalize:fix --dry-run",
+        "composer-normalize:fix": "@composer normalize --indent-size 4 --indent-style space",
+        "editorconfig:dry-run": "ec --finder-config .Build/vendor/lintkit/editorconfig-config/ec-cli-config.php",
+        "editorconfig:fix": "@editorconfig:dry-run --fix",
+        "lint": [
+            "@lint:php",
+            "@composer-normalize:fix",
+            "@yaml-lint",
+            "@editorconfig:fix"
+        ],
+        "lint:php": [
+            "@parallel-lint",
+            "@php-cs-fixer:fix"
+        ],
+        "parallel-lint": "parallel-lint ./ --exclude ./.Build",
+        "php-cs-fixer:dry-run": "@php-cs-fixer:fix --dry-run",
+        "php-cs-fixer:fix": "php-cs-fixer fix --config .Build/vendor/lintkit/php-coding-standards-config/.php-cs-fixer.php -v --diff",
         "prepare-release": [
             "rm -rf .github",
             "rm .gitignore",
             "rm .project.php_cs"
-        ]
+        ],
+        "yaml-lint": "yaml-lint ./Configuration"
     }
 }

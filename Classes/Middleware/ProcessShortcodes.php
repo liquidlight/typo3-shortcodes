@@ -2,14 +2,14 @@
 
 namespace LiquidLight\Shortcodes\Middleware;
 
-use TYPO3\CMS\Core\Http\Stream;
-use TYPO3\CMS\Core\Http\HtmlResponse;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Server\MiddlewareInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use TYPO3\CMS\Core\Http\HtmlResponse;
+use TYPO3\CMS\Core\Http\Stream;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class ProcessShortcodes implements MiddlewareInterface
 {
@@ -142,50 +142,6 @@ class ProcessShortcodes implements MiddlewareInterface
 	}
 
 	/**
-	 * extractData
-	 *
-	 * Convert a shortcode from a string into a key value array. If the keyword
-	 * and a `:` or `=` is used (e.g. `[youtube=123]` )then 123 will returned as
-	 * `value => 123`
-	 */
-	private function extractData(string $keyword, string $data): array
-	{
-		// Get rid of non-brekaing spaces in the RTE
-		$data = preg_replace('/&nbsp;/', ' ', $data);
-
-		// Replace keyword:value with keyword=value
-		$data = preg_replace('/' . $keyword . '\s?:\s?/', $keyword . '=', $data);
-
-		// Replace keyword = value with keyword=value
-		$data = preg_replace('/' . $keyword . '\s?=\s?/', $keyword . '=', $data);
-
-		// Strip tags before we even begin processing
-		$data = $this->sanitiseData($data);
-
-		// Split on spaces that are not in quotes
-		$properties = preg_split('/\s(?=([^"]*"[^"]*")*[^"]*$)/', $data);
-
-		foreach ($properties as $property) {
-			// key="value"
-			$attribute = explode('=', $property, 2);
-
-			// If it is not a ['key', 'value']
-			if (count($attribute) !== 2) {
-				continue;
-			}
-
-			// $attributes['key'] = 'value';
-			if (trim($attribute[0]) === $keyword) {
-				$attribute[0] = 'value';
-			}
-			// Strip spces and quotes (the addition of quotes is the only thing different to standard)
-			$attributes[trim($attribute[0])] = trim($this->sanitiseData($attribute[1]), " \n\r\t\v\0\"\'");
-		}
-
-		return $attributes;
-	}
-
-	/**
 	 * sanitiseData
 	 *
 	 * Remove all the unwanted gumpf that the WYSIWYG might add
@@ -236,5 +192,49 @@ class ProcessShortcodes implements MiddlewareInterface
 				$contents,
 			);
 		}
+	}
+
+	/**
+	 * extractData
+	 *
+	 * Convert a shortcode from a string into a key value array. If the keyword
+	 * and a `:` or `=` is used (e.g. `[youtube=123]` )then 123 will returned as
+	 * `value => 123`
+	 */
+	private function extractData(string $keyword, string $data): array
+	{
+		// Get rid of non-brekaing spaces in the RTE
+		$data = preg_replace('/&nbsp;/', ' ', $data);
+
+		// Replace keyword:value with keyword=value
+		$data = preg_replace('/' . $keyword . '\s?:\s?/', $keyword . '=', $data);
+
+		// Replace keyword = value with keyword=value
+		$data = preg_replace('/' . $keyword . '\s?=\s?/', $keyword . '=', $data);
+
+		// Strip tags before we even begin processing
+		$data = $this->sanitiseData($data);
+
+		// Split on spaces that are not in quotes
+		$properties = preg_split('/\s(?=([^"]*"[^"]*")*[^"]*$)/', $data);
+
+		foreach ($properties as $property) {
+			// key="value"
+			$attribute = explode('=', $property, 2);
+
+			// If it is not a ['key', 'value']
+			if (count($attribute) !== 2) {
+				continue;
+			}
+
+			// $attributes['key'] = 'value';
+			if (trim($attribute[0]) === $keyword) {
+				$attribute[0] = 'value';
+			}
+			// Strip spces and quotes (the addition of quotes is the only thing different to standard)
+			$attributes[trim($attribute[0])] = trim($this->sanitiseData($attribute[1]), " \n\r\t\v\0\"\'");
+		}
+
+		return $attributes;
 	}
 }

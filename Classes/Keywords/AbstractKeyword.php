@@ -44,9 +44,7 @@ abstract class AbstractKeyword
 	 *
 	 * Remove any attributes which have been passed in which shouldn't have.
 	 *
-	 * @param mixed $attributes
 	 *
-	 * @return void
 	 */
 	public function removeAlienAttributes(&$attributes): void
 	{
