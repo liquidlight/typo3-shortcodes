@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<phpunit
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
+	backupGlobals="true"
+	cacheResult="false"
+	colors="true"
+	processIsolation="false"
+	stopOnError="false"
+	stopOnFailure="false"
+	stopOnIncomplete="false"
+	stopOnSkipped="false"
+	beStrictAboutTestsThatDoNotTestAnything="false"
+	failOnWarning="true"
+	cacheDirectory="./.Build/.phpunit.cache"
+	requireCoverageMetadata="false"
+	displayDetailsOnTestsThatTriggerDeprecations="true"
+	displayDetailsOnTestsThatTriggerErrors="true"
+	displayDetailsOnTestsThatTriggerNotices="true"
+	displayDetailsOnTestsThatTriggerWarnings="true"
+>
+	<testsuites>
+		<testsuite name="Unit tests">
+			<directory>Tests/Unit</directory>
+		</testsuite>
+	</testsuites>
+	<coverage
+		cacheDirectory=".Build/.phpunit.cache"
+		includeUncoveredFiles="true"
+		pathCoverage="false"
+		ignoreDeprecatedCodeUnits="true"
+		disableCodeCoverageIgnore="true"
+	>
+		<report>
+			<html outputDirectory="./.Build/html-coverage" lowUpperBound="50" highLowerBound="90"/>
+		</report>
+	</coverage>
+	<source>
+		<include>
+			  <directory suffix=".php">Classes</directory>
+		</include>
+	</source>
+	<php>
+		<const name="TYPO3_MODE" value="BE"/>
+		<ini name="display_errors" value="1"/>
+		<env name="TYPO3_CONTEXT" value="Testing"/>
+	</php>
+</phpunit>

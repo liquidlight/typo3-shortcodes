@@ -28,11 +28,17 @@
         "ergebnis/composer-normalize": "^2.48",
         "lintkit/editorconfig-config": "^1.0",
         "lintkit/php-coding-standards-config": "^2.0",
-        "php-parallel-lint/php-parallel-lint": "^1.4"
+        "php-parallel-lint/php-parallel-lint": "^1.4",
+        "phpunit/phpunit": "^10.5"
     },
     "autoload": {
         "psr-4": {
             "LiquidLight\\Shortcodes\\": "Classes"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LiquidLight\\Shortcodes\\Tests\\": "Tests"
         }
     },
     "config": {
@@ -74,6 +80,7 @@
             "rm .gitignore",
             "rm .project.php_cs"
         ],
+        "test-unit": "phpunit --no-coverage",
         "yaml-lint": "yaml-lint ./Configuration"
     }
 }
