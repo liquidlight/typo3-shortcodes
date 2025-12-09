@@ -14,7 +14,7 @@
 	failOnWarning="true"
 	cacheDirectory="./.Build/.phpunit.cache"
 	requireCoverageMetadata="false"
-	displayDetailsOnTestsThatTriggerDeprecations="true"
+	displayDetailsOnTestsThatTriggerDeprecations="false"
 	displayDetailsOnTestsThatTriggerErrors="true"
 	displayDetailsOnTestsThatTriggerNotices="true"
 	displayDetailsOnTestsThatTriggerWarnings="true"
