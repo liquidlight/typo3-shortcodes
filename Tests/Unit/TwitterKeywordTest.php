@@ -35,7 +35,8 @@ final class TwitterKeywordTest extends TestCase
 	#[Test]
 	public function processShortcodeReturnsNullOnApiFailure(): void
 	{
-		$result = $this->keyword->processShortcode(
+		// Suppress warning from file_get_contents for external API call
+		@$result = $this->keyword->processShortcode(
 			'twitter',
 			['value' => 'invalid-url'],
 			'[twitter=invalid-url]'
@@ -47,14 +48,15 @@ final class TwitterKeywordTest extends TestCase
 	#[Test]
 	public function processShortcodeHandlesIdAndUrl(): void
 	{
-		$this->expectNotToPerformAssertions();
-
-		// Note: This test validates the internal logic but actual API calls
-		// would require mocking file_get_contents which is challenging
-		$this->keyword->processShortcode(
+		// Note: Twitter API calls would fail in tests without proper credentials
+		// Suppress warning from file_get_contents for external API call
+		@$result = $this->keyword->processShortcode(
 			'twitter',
 			['value' => '123456789'],
 			'[twitter=123456789]'
 		);
+
+		// API will return null without valid credentials/endpoint
+		self::assertNull($result);
 	}
 }
