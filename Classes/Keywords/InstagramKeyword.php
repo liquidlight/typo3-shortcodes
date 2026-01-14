@@ -15,7 +15,7 @@ class InstagramKeyword extends AbstractKeyword
 		string $match
 	) {
 		$parameters['url'] = isset($attributes['code']) ? ('https://www.instagram.com/p/' . $attributes['code']) :
-			($attributes['url'] ?: $attributes['value']);
+			(($attributes['url'] ?? null) ?: $attributes['value']);
 
 		if ($post = file_get_contents('https://api.instagram.com/oembed/?' . http_build_query($parameters))) {
 			if ($post = @json_decode($post, true)) {
