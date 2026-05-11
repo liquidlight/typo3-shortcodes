@@ -22,7 +22,7 @@
         "source": "https://github.com/liquidlight/typo3-shortcodes"
     },
     "require": {
-        "typo3/cms-core": "^11.5 || ^12.4 || ^13.4 || ^14.3"
+        "typo3/cms": "^11.5 || ^12.4 || ^13.4 || ^14.3"
     },
     "require-dev": {
         "ergebnis/composer-normalize": "^2.48",
@@ -58,6 +58,7 @@
     },
     "scripts": {
         "clean": "rm -rf .Build",
+        "setup": "TYPO3_SKIP_ASSET_PUBLISH=1 composer install",
         "composer-normalize:dry-run": "@composer-normalize:fix --dry-run",
         "composer-normalize:fix": "@composer normalize --indent-size 4 --indent-style space",
         "editorconfig:dry-run": "ec --finder-config .Build/vendor/lintkit/editorconfig-config/ec-cli-config.php",
