@@ -58,7 +58,6 @@
     },
     "scripts": {
         "clean": "rm -rf .Build",
-        "setup": "TYPO3_SKIP_ASSET_PUBLISH=1 composer install",
         "composer-normalize:dry-run": "@composer-normalize:fix --dry-run",
         "composer-normalize:fix": "@composer normalize --indent-size 4 --indent-style space",
         "editorconfig:dry-run": "ec --finder-config .Build/vendor/lintkit/editorconfig-config/ec-cli-config.php",
@@ -81,6 +80,7 @@
             "rm .gitignore",
             "rm .project.php_cs"
         ],
+        "setup": "TYPO3_SKIP_ASSET_PUBLISH=1 composer install",
         "test-unit": "phpunit --no-coverage",
         "yaml-lint": "yaml-lint ./Configuration"
     }
