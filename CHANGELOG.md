@@ -1,3 +1,11 @@
+# 2.4.0
+
+**15th May 2026**
+
+#### Dependencies
+
+- Add support for TYPO3 14.3 LTS
+
 # 2.3.0
 
 **14th January 2026**
