@@ -25,7 +25,6 @@ final class ProcessShortcodesTest extends TestCase
 	{
 		$reflection = new ReflectionClass($this->middleware);
 		$property = $reflection->getProperty('htmlProcessor');
-		$property->setAccessible(true);
 
 		$processor = $property->getValue($this->middleware);
 
@@ -37,7 +36,6 @@ final class ProcessShortcodesTest extends TestCase
 	{
 		$reflection = new ReflectionClass($this->middleware);
 		$property = $reflection->getProperty('keywordConfigs');
-		$property->setAccessible(true);
 
 		$configs = $property->getValue($this->middleware);
 
@@ -55,7 +53,6 @@ final class ProcessShortcodesTest extends TestCase
 
 		$reflection = new ReflectionClass($this->middleware);
 		$method = $reflection->getMethod('isHtml');
-		$method->setAccessible(true);
 
 		$result = $method->invoke($this->middleware, $response);
 
@@ -72,7 +69,6 @@ final class ProcessShortcodesTest extends TestCase
 
 		$reflection = new ReflectionClass($this->middleware);
 		$method = $reflection->getMethod('isHtml');
-		$method->setAccessible(true);
 
 		$result = $method->invoke($this->middleware, $response);
 
@@ -87,7 +83,6 @@ final class ProcessShortcodesTest extends TestCase
 
 		$reflection = new ReflectionClass($this->middleware);
 		$method = $reflection->getMethod('isHtml');
-		$method->setAccessible(true);
 
 		$result = $method->invoke($this->middleware, $response);
 
@@ -99,7 +94,6 @@ final class ProcessShortcodesTest extends TestCase
 	{
 		$reflection = new ReflectionClass($this->middleware);
 		$method = $reflection->getMethod('sanitiseData');
-		$method->setAccessible(true);
 
 		$result = $method->invoke($this->middleware, '<strong>Bold</strong> text');
 
@@ -111,7 +105,6 @@ final class ProcessShortcodesTest extends TestCase
 	{
 		$reflection = new ReflectionClass($this->middleware);
 		$method = $reflection->getMethod('sanitiseData');
-		$method->setAccessible(true);
 
 		$result = $method->invoke($this->middleware, 'Text &amp; more');
 
@@ -123,7 +116,6 @@ final class ProcessShortcodesTest extends TestCase
 	{
 		$reflection = new ReflectionClass($this->middleware);
 		$method = $reflection->getMethod('sanitiseData');
-		$method->setAccessible(true);
 
 		$result = $method->invoke($this->middleware, "Text\xc2\xa0more");
 
@@ -135,7 +127,6 @@ final class ProcessShortcodesTest extends TestCase
 	{
 		$reflection = new ReflectionClass($this->middleware);
 		$method = $reflection->getMethod('extractData');
-		$method->setAccessible(true);
 
 		$result = $method->invoke($this->middleware, 'youtube', 'youtube=abc123 ratio="16:9"');
 
@@ -147,7 +138,6 @@ final class ProcessShortcodesTest extends TestCase
 	{
 		$reflection = new ReflectionClass($this->middleware);
 		$method = $reflection->getMethod('extractData');
-		$method->setAccessible(true);
 
 		$result = $method->invoke($this->middleware, 'youtube', 'youtube: abc123');
 
@@ -159,7 +149,6 @@ final class ProcessShortcodesTest extends TestCase
 	{
 		$reflection = new ReflectionClass($this->middleware);
 		$method = $reflection->getMethod('extractData');
-		$method->setAccessible(true);
 
 		$result = $method->invoke($this->middleware, 'youtube', 'youtube = abc123');
 
@@ -171,7 +160,6 @@ final class ProcessShortcodesTest extends TestCase
 	{
 		$reflection = new ReflectionClass($this->middleware);
 		$method = $reflection->getMethod('extractData');
-		$method->setAccessible(true);
 
 		$result = $method->invoke($this->middleware, 'youtube', 'youtube="abc123" title="My Video"');
 
@@ -183,7 +171,6 @@ final class ProcessShortcodesTest extends TestCase
 	{
 		$reflection = new ReflectionClass($this->middleware);
 		$method = $reflection->getMethod('extractData');
-		$method->setAccessible(true);
 
 		$result = $method->invoke($this->middleware, 'youtube', 'youtube=abc123 invalid title="Video"');
 
@@ -195,7 +182,6 @@ final class ProcessShortcodesTest extends TestCase
 	{
 		$reflection = new ReflectionClass($this->middleware);
 		$method = $reflection->getMethod('extractData');
-		$method->setAccessible(true);
 
 		$result = $method->invoke($this->middleware, 'youtube', 'youtube=abc123&nbsp;title="Video"');
 
@@ -207,7 +193,6 @@ final class ProcessShortcodesTest extends TestCase
 	{
 		$reflection = new ReflectionClass($this->middleware);
 		$method = $reflection->getMethod('extractData');
-		$method->setAccessible(true);
 
 		$result = $method->invoke($this->middleware, 'youtube', 'youtube=abc123 title="My Great Video"');
 
@@ -219,7 +204,6 @@ final class ProcessShortcodesTest extends TestCase
 	{
 		$reflection = new ReflectionClass($this->middleware);
 		$method = $reflection->getMethod('extractData');
-		$method->setAccessible(true);
 
 		$result = $method->invoke($this->middleware, 'youtube', 'youtube="abc123"');
 
@@ -231,7 +215,6 @@ final class ProcessShortcodesTest extends TestCase
 	{
 		$reflection = new ReflectionClass($this->middleware);
 		$method = $reflection->getMethod('extractData');
-		$method->setAccessible(true);
 
 		$result = $method->invoke($this->middleware, 'youtube', "youtube='abc123'");
 
@@ -243,11 +226,9 @@ final class ProcessShortcodesTest extends TestCase
 	{
 		$reflection = new ReflectionClass($this->middleware);
 		$method = $reflection->getMethod('removeShortcodes');
-		$method->setAccessible(true);
 
 		// Set up keyword configs to match the method's requirements
 		$configProperty = $reflection->getProperty('keywordConfigs');
-		$configProperty->setAccessible(true);
 		$configProperty->setValue($this->middleware, ['youtube' => 'SomeClass']);
 
 		$contents = 'text <a href="[youtube=123]">link</a> more';
@@ -265,11 +246,9 @@ final class ProcessShortcodesTest extends TestCase
 	{
 		$reflection = new ReflectionClass($this->middleware);
 		$method = $reflection->getMethod('removeShortcodes');
-		$method->setAccessible(true);
 
 		// Set up keyword configs
 		$configProperty = $reflection->getProperty('keywordConfigs');
-		$configProperty->setAccessible(true);
 		$configProperty->setValue($this->middleware, ['youtube' => 'SomeClass']);
 
 		$contents = '<a href="[youtube=1]">one</a> <a href="[youtube=2]">two</a>';
@@ -287,11 +266,9 @@ final class ProcessShortcodesTest extends TestCase
 	{
 		$reflection = new ReflectionClass($this->middleware);
 		$method = $reflection->getMethod('findShortcodes');
-		$method->setAccessible(true);
 
 		// Set up empty keyword configs
 		$configProperty = $reflection->getProperty('keywordConfigs');
-		$configProperty->setAccessible(true);
 		$configProperty->setValue($this->middleware, ['youtube' => 'SomeClass']);
 
 		$result = $method->invoke($this->middleware, 'No shortcodes here');
@@ -305,10 +282,8 @@ final class ProcessShortcodesTest extends TestCase
 	{
 		$reflection = new ReflectionClass($this->middleware);
 		$method = $reflection->getMethod('findShortcodes');
-		$method->setAccessible(true);
 
 		$configProperty = $reflection->getProperty('keywordConfigs');
-		$configProperty->setAccessible(true);
 		$configProperty->setValue($this->middleware, ['youtube' => 'SomeClass']);
 
 		$result = $method->invoke($this->middleware, 'Text [youtube: abc123] more');
@@ -322,10 +297,8 @@ final class ProcessShortcodesTest extends TestCase
 	{
 		$reflection = new ReflectionClass($this->middleware);
 		$method = $reflection->getMethod('findShortcodes');
-		$method->setAccessible(true);
 
 		$configProperty = $reflection->getProperty('keywordConfigs');
-		$configProperty->setAccessible(true);
 		$configProperty->setValue($this->middleware, ['youtube' => 'SomeClass']);
 
 		$result = $method->invoke($this->middleware, 'Text [youtube=abc123] more');
@@ -339,10 +312,8 @@ final class ProcessShortcodesTest extends TestCase
 	{
 		$reflection = new ReflectionClass($this->middleware);
 		$method = $reflection->getMethod('findShortcodes');
-		$method->setAccessible(true);
 
 		$configProperty = $reflection->getProperty('keywordConfigs');
-		$configProperty->setAccessible(true);
 		$configProperty->setValue($this->middleware, ['youtube' => 'SomeClass']);
 
 		$result = $method->invoke($this->middleware, 'Text [youtube code=abc123] more');
@@ -356,10 +327,8 @@ final class ProcessShortcodesTest extends TestCase
 	{
 		$reflection = new ReflectionClass($this->middleware);
 		$method = $reflection->getMethod('findShortcodes');
-		$method->setAccessible(true);
 
 		$configProperty = $reflection->getProperty('keywordConfigs');
-		$configProperty->setAccessible(true);
 		$configProperty->setValue($this->middleware, ['youtube' => 'Class1', 'vimeo' => 'Class2']);
 
 		$result = $method->invoke($this->middleware, 'Text [youtube=123] and [vimeo=456]');
@@ -372,10 +341,8 @@ final class ProcessShortcodesTest extends TestCase
 	{
 		$reflection = new ReflectionClass($this->middleware);
 		$method = $reflection->getMethod('findShortcodes');
-		$method->setAccessible(true);
 
 		$configProperty = $reflection->getProperty('keywordConfigs');
-		$configProperty->setAccessible(true);
 		$configProperty->setValue($this->middleware, ['youtube' => 'SomeClass']);
 
 		$result = $method->invoke($this->middleware, 'Text [unknown=123] and [youtube=456]');
