@@ -1,3 +1,11 @@
+# 2.4.1
+
+**15th May 2026**
+
+#### Dependencies
+
+- Correct TYPO3 core dependency to prevent conflicts
+
 # 2.4.0
 
 **15th May 2026**
