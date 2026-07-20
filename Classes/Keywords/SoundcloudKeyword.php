@@ -23,7 +23,7 @@ class SoundcloudKeyword extends AbstractKeyword
 		array $attributes,
 		string $match
 	) {
-		$parameters = array_merge($attributes, $parameters);
+		$parameters = array_merge($attributes, $parameters ?? []);
 		$parameters = [
 			'format' => 'json',
 			'url' => isset($attributes['url']) && $attributes['url'] ? $attributes['url'] : $attributes['value'],
