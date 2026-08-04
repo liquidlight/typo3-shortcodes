@@ -39,7 +39,7 @@ class YoutubeKeyword extends VideoKeyword
 	 *  @param   $url   string   The string that shall be checked.
 	 *  @return  mixed           Returns YouTube Video ID, or (boolean) false.
 	 */
-	private function getYoutubeCode($url)
+	protected function getYoutubeCode($url)
 	{
 		$pattern = '#^(?:https?://)?(?:www\.)?(?:youtu\.be/|youtube\.com(?:/embed/|/v/|/watch\?v=|/watch\?.+&v=))([\w-]{11})(?:.+)?$#x';
 		preg_match($pattern, $url, $matches);
