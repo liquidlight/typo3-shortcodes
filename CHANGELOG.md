@@ -1,3 +1,11 @@
+# 2.4.2
+
+**3rd September 2026**
+
+#### Fix
+
+- Change `getYoutubeCode` method visibility from private to protected in `YoutubeKeyword` class (#42)
+
 # 2.4.1
 
 **15th May 2026**
